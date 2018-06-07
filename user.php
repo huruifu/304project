@@ -29,7 +29,7 @@ class User {
     private function getPlayerName() {
         global $query;
         global $connection;
-        $selectQuery = $query -> writeSelectQuery("Favorite", "player_name", "userID", "=", $this->userID, NULL);
+        $selectQuery = $query -> writeSelectQuery("Favorite", "player_name", "userID", "=", $this->userID);
         $result = mysqli_query($connection, $query);
         $row = mysqli_fetch_assoc($result);
         $playerName = $row['player_name'];
@@ -39,7 +39,7 @@ class User {
     private function getPlayer($playerName) {
         global $query;
         global $connection;
-        $selectQuery = $query -> writeSelectQuery("PlayerHas", "*", "name", "=", $playerName, NULL);
+        $selectQuery = $query -> writeSelectQuery("PlayerHas", "*", "name", "=", $playerName);
         $result = mysqli_query($connection, $query);
         $row = mysqli_fetch_assoc($result);
         $age = $row['age'];
