@@ -9,7 +9,7 @@ function handleQuery(id){
         url: "test.php",
         type:'POST',
         data: {
-            id,
+            test: '',
             params,
         },
         dataType: 'json',
