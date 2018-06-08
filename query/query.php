@@ -4,12 +4,14 @@ class Query {
     
     public function writeSelectQuery($tableName, $selectColumn, $conditionColumn, $operator, $conditionValue) {
         $query = "SELECT $selectColumn ";
-        $query .= "FROM $tableName";
-        if (gettype($conditionValue) == "string") {
-            $query .= "WHERE $conditionColumn = '$conditionValue'";
-        } 
-        else {
-            $query .= "WHERE $conditionColumn $operator $conditionValue";
+        $query .= "FROM $tableName ";
+        if (isset($conditionColumn)) {
+            if (gettype($conditionValue) == "string") {
+                $query .= "WHERE $conditionColumn = '$conditionValue' ";
+            } 
+            else {
+                $query .= "WHERE $conditionColumn $operator $conditionValue ";
+            }
         }
         return $query;
     }
@@ -35,7 +37,7 @@ class Query {
         $query .= "FROM $tableName ";
         if (gettype($conditionValue) == "string") {
             $query .= "WHERE $conditionColumn = '$conditionValue' ";
-            $query .= "GROUP BY $selectColumn";
+            $query .= "GROUP BY $selectColumn ";
         }
         else if (!isset($conditionColumn)) {
             $query .= " ";
@@ -48,8 +50,8 @@ class Query {
     }
     
     public function deleteQuery($tableName, $selectColumn, $conditionColumn, $conditionValue) {
-        $query = "DELETE FROM $tableName";
-        $query .= " WHERE $conditionColumn = '$conditionValue' ";
+        $query = "DELETE FROM $tableName ";
+        $query .= "WHERE $conditionColumn = '$conditionValue'";
         return $query;
     }
     
@@ -59,21 +61,21 @@ class Query {
         $length = sizeof($params);
         for ($i=1; $i<$length-1; $i++) {
             if ($i < length - 1) {
-                if (gettype($params[i]) == "strinf") {
-                    $query .= "'$params[i]'";
-                }
-                else {
-                    $query .= $params[i];
-                }
-                
-            }
-            else {
-                if (gettype($params[i]) == "strinf") {
+                if (gettype($params[i]) == "string") {
                     $query .= "'$params[i]', ";
                 }
                 else {
                     $query .= $params[i];
                     $query .= ", ";
+                }
+                
+            }
+            else {
+                if (gettype($params[i]) == "string") {
+                    $query .= "'$params[i]'";
+                }
+                else {
+                    $query .= $params[i];
                 }
             }
         }
@@ -98,6 +100,7 @@ class Query {
         }
         return query;
     }
+
     
     
     
