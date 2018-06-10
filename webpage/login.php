@@ -1,14 +1,21 @@
+<?php include "../database/connection.php"; ?>
+<?php include "../query/query.php"; ?>
+
+
 <?php 
-session_start();
-$logins = [];
+$query = new query();
 if (isset($_POST['register'])) {
-    $newUserName = $_POST['username'];
+    $userName = $_POST['username'];
     $password = $_POST['password'];
-    $logins += [$newUserName => $password];
+    $insertQuery = $query -> insertQuery("USERS", $userName, $password, false);
+    $result = mysqli_query($connection, $insertQuery);
+    if (!$result) {
+        die ("Failed to register " . mysqli_error($connection));
+    }
 }
-$_SESSION['logins'] =  $logins;
 
 ?>
+
 
 
 
@@ -18,28 +25,26 @@ $_SESSION['logins'] =  $logins;
 <head>
     <meta charset="UTF-8">
     <title>LoginPage</title>
+    <link rel="stylesheet" type="text/css" href="login_style.css">
 </head>
 <body>
   
-   <form id='register' action='login.html' method='post' 
+   <form id='register' action='login.php' method='post' 
     accept-charset='UTF-8'>
-<fieldset>
+
 <legend>Sign Up</legend>
     <input type="text" name = "username" placeholder="Enter Username"><br>
     <input type="password" name = "password" placeholder="Enter Password"><br>
-    <input type="submit" name = "register" value = "REGISTER">
-
-</fieldset>
+    <input type="submit" name = "register" value = "SIGN UP">
 </form>
    
    
-<form id = 'sign in' action="form_process.php" method = "post">
-<fieldset> 
+<form id = 'sign in' action="login.php" method = "post">
+
 <legend>Sign In</legend>   
     <input type="text" name = "username" placeholder="Enter Username"><br>
     <input type="password" name = "password" placeholder="Enter Password"><br>
-    <input type="submit" name = "submit">
-</fieldset>      
+    <input type="submit" name = "submit" value = "SIGN IN">     
 </form>
     
 </body>
