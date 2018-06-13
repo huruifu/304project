@@ -4,6 +4,7 @@
 <?php
 session_start();
 $query = $_SESSION['query'];
+// $user = new User('vincy', 'thkad', false);
 class User {
     private $userID;
     private $password;
@@ -48,11 +49,14 @@ class User {
         $player = new Player($playerName, $age, $nationality, $jerseyNum);
         return $player;
     }
-    
-    
-}
 
+    // public function getAllgames() {
+    //     global $query;
+    //     global $connection;
+    //     $selectQuery = $query -> writeSelectQuery("Game", "*", NULL, NULL, NULL);
+    //     $result = mysqli_query($connection, $selectQuery);
+    //     return $result;
+    // };
 
-
-
+};
 ?>

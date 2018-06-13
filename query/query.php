@@ -16,21 +16,21 @@ class Query {
         return $query;
     }
     
-    public function writeUnion($query1, $query2) {
-        $query = "";
-        $query .= $query1;
-        $query .= " UNION ";
-        $query .= $query2;
-        return $query;
-    }
+    // public function writeUnion($query1, $query2) {
+    //     $query = "";
+    //     $query .= $query1;
+    //     $query .= " UNION ";
+    //     $query .= $query2;
+    //     return $query;
+    // }
     
-    public function writeIntersection($query1, $query2) {
-        $query = "";
-        $query .= $query1;
-        $query .= " INTERSECTION ";
-        $query .= $query2;
-        return $query;
-    }
+    // public function writeIntersection($query1, $query2) {
+    //     $query = "";
+    //     $query .= $query1;
+    //     $query .= " INTERSECTION ";
+    //     $query .= $query2;
+    //     return $query;
+    // }
     
     public function writeAvgQuery($tableName, $selectColumn, $conditionColumn, $conditionValue) {
         $query = "SELECT $selectColumn, AVG('$selectColumn') ";
@@ -55,34 +55,34 @@ class Query {
         return $query;
     }
     
-    public function insertQuery($tableName, ...$params) {
-        $query = "INSERT INTO $tableName ";
-        $query .= "VALUES (";
-        $length = sizeof($params);
-        for ($i=1; $i<$length-1; $i++) {
-            if ($i < length - 1) {
-                if (gettype($params[i]) == "string") {
-                    $query .= "'$params[i]', ";
-                }
-                else {
-                    $query .= $params[i];
-                    $query .= ", ";
-                }
+    // public function insertQuery($tableName, ...$params) {
+    //     $query = "INSERT INTO $tableName ";
+    //     $query .= "VALUES (";
+    //     $length = sizeof($params);
+    //     for ($i=0; $i<$length; $i++) {
+    //         if ($i < $length - 1) {
+    //             if (gettype($params[$i]) == "string") {
+    //                 $query .= "'$params[$i]', ";
+    //             }
+    //             else {
+    //                 $query .= $params[$i];
+    //                 $query .= ", ";
+    //             }
                 
-            }
-            else {
-                if (gettype($params[i]) == "string") {
-                    $query .= "'$params[i]'";
-                }
-                else {
-                    $query .= $params[i];
-                }
-            }
-        }
-        $query .= ") ";
-        return $query;
+    //         }
+    //         else {
+    //             if (gettype($params[$i]) == "string") {
+    //                 $query .= "'$params[$i]' ";
+    //             }
+    //             else {
+    //                 $query .= $params[$i];
+    //             }
+    //         }
+    //     }
+    //     $query .= ") ";
+    //     return $query;
         
-    }
+    // }
     
     public function upDateQuery($tableName, $setColumn, $setValue, $conditonColumn, $conditionValue) {
         $query = "UPDATE $stableName ";
