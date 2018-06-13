@@ -1,5 +1,6 @@
 import requests
 import datetime
+from bs4 import BeautifulSoup
 
 TEAM_INSERT_TEMPLATE = "INSERT INTO TEAM VALUES " \
                        "('{name}', '{city}', {wins}, {losses});\n"
@@ -68,17 +69,35 @@ for player in requests.get(NBA_API_TEMPLATE_URL.format("/prod/v1/2017/players.js
             'country': player['country'],
             'mvpNum': 0,
             'allStarNum': 0
-            # TODO: mvp_num, all_star_num
-            # https://www.basketball-reference.com/awards/mvp.html
-            # https://www.basketball-reference.com/awards/all_star_by_player.html
         }
+
+# MVP #
+html = requests.get('https://www.basketball-reference.com/awards/mvp.html').text
+html_parser = BeautifulSoup(html, 'html.parser')
+for row in html_parser.select("#mvp_summary tbody tr"):
+    name = row.find(attrs={'data-stat': 'player'}).find('a').string
+    for playerId, player in data['players'].iteritems():
+        if name == player['name']:
+            player['mvpNum'] = int(row.find(attrs={'data-stat': 'counter'}).string)
+# ALL-STAR APPEARANCES
+html = requests.get('https://www.basketball-reference.com/awards/all_star_by_player.html').text
+html_parser = BeautifulSoup(html, 'html.parser')
+for row in html_parser.select("#div_all_star_by_player tbody tr"):
+    name = row.find('a').string
+    for player_id, player in data['players'].iteritems():
+        if name == player['name']:
+            player['allStarNum'] = int(row.select(".center")[0].string)
+
 
 for game in requests.get(NBA_API_TEMPLATE_URL.format("/prod/v1/2017/schedule.json")).json()['league']['standard']:
     homeTeam = game['hTeam']
     awayTeam = game['vTeam']
+    gameId = game['gameId']
+    gameDate = game['startDateEastern']
     if "2017" in game['startTimeUTC'] \
             and homeTeam['teamId'] in data['teams'] \
-            and awayTeam['teamId'] in data['teams']:
+            and awayTeam['teamId'] in data['teams']\
+            and gameDate < "20171101": # one month of data
         gameTime = game['startTimeUTC'].replace('T', ' ')[:-5]
         gameLocation = data['teams'][homeTeam['teamId']]['city']
         data['games'].append({
@@ -97,10 +116,6 @@ for game in requests.get(NBA_API_TEMPLATE_URL.format("/prod/v1/2017/schedule.jso
             data['teams'][awayTeam['teamId']]['wins'] += 1
             data['teams'][homeTeam['teamId']]['losses'] += 1
 
-        gameId = game['gameId']
-        gameDate = game['startDateEastern']
-        if gameDate >= "20171101":
-            continue
         url = "/prod/v1/{}/{}_boxscore.json".format(game['startDateEastern'], game['gameId'])
         resp = requests.get(NBA_API_TEMPLATE_URL.format(url))
         if resp.status_code == 200:
