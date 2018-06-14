@@ -4273,7 +4273,7 @@ INSERT INTO ATTENDS VALUES ('Zach Collins', '2017-10-25 02:00:00', 'Portland', 0
 INSERT INTO ATTENDS VALUES ('Zach Collins', '2017-10-27 02:00:00', 'Portland', 0, 0, 0, 0, 0);
 INSERT INTO ATTENDS VALUES ('Zach Collins', '2017-10-29 02:00:00', 'Portland', 0, 0, 1, 0, 0);
 INSERT INTO ATTENDS VALUES ('Zach Collins', '2017-10-31 02:00:00', 'Portland', 0, 0, 0, 0, 0);
-INSERT INTO PLAYERHAS VALUES ('Justin Patton', 'USA', 20, 24, 'Minnesota Timberwolves');
+INSERT INTO PLAYERHAS VALUES ('Justin Patton', 'USA', 21, 24, 'Minnesota Timberwolves');
 INSERT INTO CAREER VALUES ('Justin Patton', 0, 0, '2017/1/16');
 INSERT INTO ATTENDS VALUES ('Justin Patton', '2017-10-01 02:00:00', 'Los Angeles', 0, 0, 0, 0, 0);
 INSERT INTO ATTENDS VALUES ('Justin Patton', '2017-10-05 06:00:00', 'Golden State', 0, 0, 0, 0, 0);

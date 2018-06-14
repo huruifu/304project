@@ -5,12 +5,12 @@ from bs4 import BeautifulSoup
 TEAM_INSERT_TEMPLATE = "INSERT INTO TEAM VALUES " \
                        "('{name}', '{city}', {wins}, {losses});\n"
 PLAYER_INSERT_TEMPLATE = "INSERT INTO PLAYERHAS VALUES " \
-                         "('{name}', '{nationality}', {age}, {jersey_num}, '{team_name}');\n"
+                         "('{name}', '{nationality}', {age}, {jersey_number}, '{team}');\n"
 GAME_INSERT_TEMPLATE = "INSERT INTO GAMEPLAY VALUES (" \
-                       "'{homeTeam}', '{awayTeam}', '{gameTime}', '{gameLocation}', " \
-                       "{homeTeamScore}, {awayTeamScore});\n"
+                       "'{home_team}', '{away_team}', '{game_time}', '{game_location}', " \
+                       "{home_team_score}, {away_team_score});\n"
 COACH_INSERT_TEMPLATE = "INSERT INTO COACH VALUES " \
-                        "('{name}', '{college}', '{isAssistant}', '{team}', {wins}, {losses});\n"
+                        "('{name}', '{college}', '{is_assistant}', '{team}', {wins}, {losses});\n"
 CAREER_INSERT_TEMPLATE = "INSERT INTO CAREER VALUES " \
                          "('{name}', {mvp_num}, {all_star_num}, '{draft}');\n"
 ATTENDS_INSERT_TEMPLATE = "INSERT INTO ATTENDS VALUES " \
@@ -29,13 +29,13 @@ insert_statements = []
 
 
 def calculate_age(dob):
-    byear, bmonth, bday = dob.split("-")
-    byear, bmonth, bday = int(byear), int(bmonth), int(bday)
+    b_year, b_month, b_day = dob.split("-")
+    b_year, b_month, b_day = int(b_year), int(b_month), int(b_day)
     now = datetime.datetime.utcnow()
-    age = now.year - byear
-    if now.month < bmonth:
+    age = now.year - b_year
+    if now.month < b_month:
         age = age - 1
-    elif now.month == bmonth and bday > now.day:
+    elif now.month == b_month and b_day > now.day:
         age = age - 1
     return age
 
@@ -65,10 +65,10 @@ for player in requests.get(NBA_API_TEMPLATE_URL.format("/prod/v1/2017/players.js
             'team': data['teams'][player['teams'][-1]['teamId']]['name'],
             'draft': draft,
             'age': calculate_age(player['dateOfBirthUTC']),
-            'jerseyNumber': player['jersey'],
-            'country': player['country'],
-            'mvpNum': 0,
-            'allStarNum': 0
+            'jersey_number': player['jersey'],
+            'nationality': player['country'],
+            'mvp_num': 0,
+            'all_star_num': 0
         }
 
 # MVP #
@@ -76,9 +76,9 @@ html = requests.get('https://www.basketball-reference.com/awards/mvp.html').text
 html_parser = BeautifulSoup(html, 'html.parser')
 for row in html_parser.select("#mvp_summary tbody tr"):
     name = row.find(attrs={'data-stat': 'player'}).find('a').string
-    for playerId, player in data['players'].iteritems():
+    for player_id, player in data['players'].iteritems():
         if name == player['name']:
-            player['mvpNum'] = int(row.find(attrs={'data-stat': 'counter'}).string)
+            player['mvp_num'] = int(row.find(attrs={'data-stat': 'counter'}).string)
 # ALL-STAR APPEARANCES
 html = requests.get('https://www.basketball-reference.com/awards/all_star_by_player.html').text
 html_parser = BeautifulSoup(html, 'html.parser')
@@ -86,52 +86,53 @@ for row in html_parser.select("#div_all_star_by_player tbody tr"):
     name = row.find('a').string
     for player_id, player in data['players'].iteritems():
         if name == player['name']:
-            player['allStarNum'] = int(row.select(".center")[0].string)
+            player['all_star_num'] = int(row.select(".center")[0].string)
 
 
 for game in requests.get(NBA_API_TEMPLATE_URL.format("/prod/v1/2017/schedule.json")).json()['league']['standard']:
-    homeTeam = game['hTeam']
-    awayTeam = game['vTeam']
-    gameId = game['gameId']
-    gameDate = game['startDateEastern']
+    home_team = game['hTeam']
+    away_team = game['vTeam']
+    game_id = game['gameId']
+    game_date = game['startDateEastern']
     if "2017" in game['startTimeUTC'] \
-            and homeTeam['teamId'] in data['teams'] \
-            and awayTeam['teamId'] in data['teams']\
-            and gameDate < "20171101": # one month of data
-        gameTime = game['startTimeUTC'].replace('T', ' ')[:-5]
-        gameLocation = data['teams'][homeTeam['teamId']]['city']
+            and home_team['teamId'] in data['teams'] \
+            and away_team['teamId'] in data['teams']\
+            and game_date < "20171101": # one month of data
+        game_time = game['startTimeUTC'].replace('T', ' ')[:-5]
+        game_location = data['teams'][home_team['teamId']]['city']
         data['games'].append({
-            'homeTeam': data['teams'][homeTeam['teamId']]['name'],
-            'awayTeam': data['teams'][awayTeam['teamId']]['name'],
-            'homeTeamScore': homeTeam['score'],
-            'awayTeamScore': awayTeam['score'],
-            'gameTime': gameTime,
-            'gameLocation': gameLocation
+            'home_team': data['teams'][home_team['teamId']]['name'],
+            'away_team': data['teams'][away_team['teamId']]['name'],
+            'home_team_score': home_team['score'],
+            'away_team_score': away_team['score'],
+            'game_time': game_time,
+            'game_location': game_location
         })
         # update wins/losses for team
-        if homeTeam['score'] > awayTeam['score']:
-            data['teams'][homeTeam['teamId']]['wins'] += 1
-            data['teams'][awayTeam['teamId']]['losses'] += 1
+        if home_team['score'] > away_team['score']:
+            data['teams'][home_team['teamId']]['wins'] += 1
+            data['teams'][away_team['teamId']]['losses'] += 1
         else:
-            data['teams'][awayTeam['teamId']]['wins'] += 1
-            data['teams'][homeTeam['teamId']]['losses'] += 1
+            data['teams'][away_team['teamId']]['wins'] += 1
+            data['teams'][home_team['teamId']]['losses'] += 1
 
-        url = "/prod/v1/{}/{}_boxscore.json".format(game['startDateEastern'], game['gameId'])
+        url = '/prod/v1/{}/{}_boxscore.json'.format(game['startDateEastern'], game['gameId'])
         resp = requests.get(NBA_API_TEMPLATE_URL.format(url))
         if resp.status_code == 200:
             for game_player in resp.json()['stats']['activePlayers']:
                 if game_player['personId'] in data['players']:
                     player = data['players'][game_player['personId']]
                     stats = {
-                        'gameTime': gameTime,
-                        'gameLocation': gameLocation,
+                        'name': player['name'],
+                        'game_time': game_time,
+                        'game_location': game_location,
                         'points': game_player['points'],
                         'rebounds': game_player['totReb'],
                         'assists': game_player['assists'],
                         'blocks': game_player['blocks'],
                         'steals': game_player['steals']
                     }
-                    if "stats" in player:
+                    if 'stats' in player:
                         player['stats'].append(stats)
                     else:
                         player['stats'] = [stats]
@@ -143,7 +144,7 @@ for coach in requests.get(NBA_API_TEMPLATE_URL.format("/prod/v1/2017/coaches.jso
     data['coaches'].append({
         'name': (coach['firstName'] + " " + coach['lastName']).replace("'", "''"),
         'team': data['teams'][coach['teamId']]['name'],
-        'isAssistant': 'Y' if coach['isAssistant'] else 'N',
+        'is_assistant': 'Y' if coach['isAssistant'] else 'N',
         'college': coach['college'].replace("'", "''"),
         'wins': data['teams'][coach['teamId']]['wins'],
         'losses': data['teams'][coach['teamId']]['losses'],
@@ -154,11 +155,7 @@ with open('populate_tables.sql', 'w') as f:
     f.write("INSERT INTO Users VALUES ('admin_user', 'Y', 'password');\n" 
             "INSERT INTO Users VALUES ('normal_user', 'N', 'password');\n")
     for teamId, team in data['teams'].iteritems():
-        f.write(TEAM_INSERT_TEMPLATE.format(
-            name=team['name'],
-            city=team['city'],
-            wins=team['wins'],
-            losses=team['losses']))
+        f.write(TEAM_INSERT_TEMPLATE.format(**team))
 
     for game in data['games']:
         f.write(GAME_INSERT_TEMPLATE.format(**game))
@@ -167,28 +164,8 @@ with open('populate_tables.sql', 'w') as f:
         f.write(COACH_INSERT_TEMPLATE.format(**coach))
 
     for playerId, player in data['players'].iteritems():
-        f.write(PLAYER_INSERT_TEMPLATE.format(
-            name=player['name'],
-            nationality=player['country'],
-            age=player['age'],
-            jersey_num=player['jerseyNumber'],
-            team_name=player['team']
-        ))
-        f.write(CAREER_INSERT_TEMPLATE.format(
-            name=player['name'],
-            mvp_num=player['mvpNum'],
-            all_star_num=player['allStarNum'],
-            draft=player['draft']
-        ))
+        f.write(PLAYER_INSERT_TEMPLATE.format(**player))
+        f.write(CAREER_INSERT_TEMPLATE.format(**player))
         if 'stats' in player:
             for stat in player['stats']:
-                f.write(ATTENDS_INSERT_TEMPLATE.format(
-                    name=player['name'],
-                    game_time=stat['gameTime'],
-                    game_location=stat['gameLocation'],
-                    points=stat['points'],
-                    assists=stat['assists'],
-                    rebounds=stat['rebounds'],
-                    steals=stat['steals'],
-                    blocks=stat['blocks']
-                ))
+                f.write(ATTENDS_INSERT_TEMPLATE.format(**stat))
