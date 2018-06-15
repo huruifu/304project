@@ -2,252 +2,166 @@
 
 class Query {
     
+    // team
+    public function ranking_query($table, $c, $n, $b=1){
+    // Get top $n from $table ordered by $c; $b is 1 defaultly 
+    // means odered by DESC, if $b is 0 then ordered by ASC
+        if ($b){
+            $query = "SELECT * FROM $table ORDER BY $c DESC LIMIT $n;";
+        }
+        else {
+            $query = "SELECT * FROM $table
+                    ORDER BY $c ASC
+                    LIMIT $n;";
+        }
+        return $query;
+    }
+    
+    
+    public function topPlayer_game($g_location, $g_time, $team, $record){
+    // From $attends table, pick one player in a $team, who got the // highest $record
+    // in a game, given its $g_location and $g_time
+    //echo 'here';
+    $query = "SELECT P.p_name, P.t_name, MAX($record)
+                FROM Attends A, Players P
+                WHERE A.g_location = '$g_location' AND
+                    A.p_name = P.p_name AND A.g_time = '$g_time'
+                GROUP BY P.t_name";
+        return $query;
+    }
+    
+    
+    
     public function writeSelectQuery($tableName, $selectColumn, $conditionColumn, $operator, $conditionValue) {
         $query = "SELECT $selectColumn ";
         $query .= "FROM $tableName ";
-        if (isset($conditionColumn)) {
-            if (gettype($conditionValue) == "string") {
-                $query .= "WHERE $conditionColumn = '$conditionValue' ";
-            } 
-            else {
-                $query .= "WHERE $conditionColumn $operator $conditionValue ";
-            }
-        }
-        return $query;
-    }
-    
-    // public function writeUnion($query1, $query2) {
-    //     $query = "";
-    //     $query .= $query1;
-    //     $query .= " UNION ";
-    //     $query .= $query2;
-    //     return $query;
-    // }
-    
-    // public function writeIntersection($query1, $query2) {
-    //     $query = "";
-    //     $query .= $query1;
-    //     $query .= " INTERSECTION ";
-    //     $query .= $query2;
-    //     return $query;
-    // }
-    
-    public function writeAvgQuery($tableName, $selectColumn, $conditionColumn, $conditionValue) {
-        $query = "SELECT $selectColumn, AVG('$selectColumn') ";
-        $query .= "FROM $tableName ";
         if (gettype($conditionValue) == "string") {
-            $query .= "WHERE $conditionColumn = '$conditionValue' ";
-            $query .= "GROUP BY $selectColumn ";
-        }
-        else if (!isset($conditionColumn)) {
-            $query .= " ";
+            $query .= " WHERE $conditionColumn = '$conditionValue' ";
         }
         else {
-            $query .= "WHERE $conditionColumn = $conditionValue ";
-            $query .= "GROUP BY $selectColumn ";
+            $query .= " WHERE $conditionColumn $operator $conditionValue ";
         }
         return $query;
     }
     
-    public function deleteQuery($tableName, $selectColumn, $conditionColumn, $conditionValue) {
+    public function writeSelectQueryWithoutWhere($tableName, $selectColumn) {
+        $query = "SELECT $selectColumn ";
+        $query .= "FROM $tableName ";
+        return $query;
+    }
+
+    public function writeAggregateQuery($tableName, $aggregation, $aggregateColumn, $selectColumn) {
+        $query = "SELECT $selectColumn, $aggregation($aggregateColumn) ";
+        $query .= "FROM $tableName ";
+        $query .= "GROUP BY $selectColumn ";
+        return $query;
+    }
+ 
+    public function insertQuery($tableName, ...$params) {
+        $query = "INSERT INTO $tableName ";
+        $query .= "VALUES (";
+        $length = sizeof($params);
+        for ($i=0; $i<$length; $i++) {
+            if ($i < $length - 1) {
+                echo $params[$i];
+                if (gettype($params[$i]) == "string") {
+                    $query .= "'$params[$i]', ";
+                }
+                else {
+                    $query .= $params[$i];
+                    $query .= ", ";
+                }
+                
+            }
+            else {
+                if (gettype($params[$i]) == "string") {
+                    $query .= "'$params[$i]'";
+                }
+                else {
+                    $query .= $params[$i];
+                }
+            }
+        }
+        $query .= ") ";
+        return $query;
+        
+    }
+    
+    public function updateQuery($tableName, $upDateColumn, $value, $condColumn, $condValue) {
+        $upDate = "UPDATE $tableName ";
+        if (gettype($value) == "string") {
+            $upDate .= "SET $upDateColumn = '$value' ";
+        }
+        else {
+            $upDate .= "SET $upDateColumn = $value ";
+        }
+        
+        if (gettype($condValue) == "string") {
+            $upDate .= "WHERE $condColumn = '$condValue' ";
+        }
+        else {
+            $upDate .= "WHERE $condColumn = $condValue ";
+        }
+        return $upDate;
+        
+    }
+    
+    public function deleteQuery($tableName, $conditionColumn, $conditionValue) {
         $query = "DELETE FROM $tableName ";
         $query .= "WHERE $conditionColumn = '$conditionValue'";
         return $query;
     }
+    public function teamAvgScores(){
+        $t1 = "SELECT team1 AS team, sum(scores1) AS sum1 ";
+        $t1 .= "FROM GAMEPLAY ";
+        $t1 .= "GROUP BY team1 ";
     
-    // public function insertQuery($tableName, ...$params) {
-    //     $query = "INSERT INTO $tableName ";
-    //     $query .= "VALUES (";
-    //     $length = sizeof($params);
-    //     for ($i=0; $i<$length; $i++) {
-    //         if ($i < $length - 1) {
-    //             if (gettype($params[$i]) == "string") {
-    //                 $query .= "'$params[$i]', ";
-    //             }
-    //             else {
-    //                 $query .= $params[$i];
-    //                 $query .= ", ";
-    //             }
-                
-    //         }
-    //         else {
-    //             if (gettype($params[$i]) == "string") {
-    //                 $query .= "'$params[$i]' ";
-    //             }
-    //             else {
-    //                 $query .= $params[$i];
-    //             }
-    //         }
-    //     }
-    //     $query .= ") ";
-    //     return $query;
+        $t2 = "SELECT team2 AS team, sum(scores2) AS sum2 ";
+        $t2 .= "FROM GAMEPLAY ";
+        $t2 .= "GROUP BY team2 ";
+    
+        $joinQuery = "SELECT t1.team AS teamName, t1.sum1 AS t1sum, t2.sum2 AS t2sum ";
+        $joinQuery .= "FROM ($t1) AS t1, ($t2) AS t2 ";
+        $joinQuery .= "WHERE t1.team = t2.team ";
+    
+        $sumQuery = "SELECT teamName, t1sum + t2sum AS totalPoints ";
+        $sumQuery .= "FROM ($joinQuery) AS t3 ";
+    
+        $hostNum = "SELECT team1 AS hostTeam, COUNT(*) AS hostNum ";
+        $hostNum .= "FROM GAMEPLAY ";
+        $hostNum .= "GROUP BY team1 ";
         
-    // }
+        $guestNum = "SELECT team2 AS guestTeam, COUNT(*) AS guestNum ";
+        $guestNum .= "FROM GAMEPLAY ";
+        $guestNum .= "GROUP BY team2 ";
+        
+        $joinQuery1 = "SELECT ht.hostTeam AS team, ht.hostNum AS hostMatch, gt.guestNum AS guestMatch ";
+        $joinQuery1 .= "FROM ($hostNum) AS ht, ($guestNum) AS gt ";
+        $joinQuery1 .= "WHERE ht.hostTeam = gt.guestTeam ";
+        
+        $sumNumQuery = "SELECT team, hostMatch + guestMatch AS totalMatch ";
+        $sumNumQuery .= "FROM ($joinQuery1) AS jq ";
+        
+        $divQuery = "SELECT s1.teamName, s1.totalPoints AS points, s2.totalMatch AS matches ";
+        $divQuery .= "FROM ($sumQuery) AS s1, ($sumNumQuery) AS s2 ";
+        $divQuery .= "WHERE s1.teamName = s2.team ";
+        
+        $finalQuery .= "SELECT s3.teamName AS team, s3.points/s3.matches ";
+        $finalQuery .= "FROM ($divQuery) AS s3 ";
     
-    public function upDateQuery($tableName, $setColumn, $setValue, $conditonColumn, $conditionValue) {
-        $query = "UPDATE $stableName ";
-        if (isset($setValue) == "string") {
-            $query .= "SET $setColumn = '$setValue' ";
-        }
-        else {
-            $query .= "SET $setColumn = $setValue ";
-        }
-        if (isset($conditionValue) == "string") {
-            $query .= "WHERE $conditionColumn = '$conditionValue' ";
-        }
-        else {
-            $query .= "WHERE $conditionColumn = $conditionValue ";
-        }
-        return query;
+        return $finalQuery;
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-//    public function writeSelectQuery($tableName, $selectColumns, $conditionColumns, $conditionOperators, $conditionValues, $logic) {
-//        $query = writeSelectColumns($selectColumns);
-//        $query .= writeFrom($tableName);
-//        $query .= writeWhereCondition($conditionColumns, $conditionOperators, $conditionValues, $logics);
-//        return $query;
-//    }
-//    
-//    public function writeAvgQuery($tableName, $selectColumn, $conditionColumn, $conditionValue) {
-//        $query = "SELECT AVG('$selectColumn') ";
-//        $query .= writeFrom($tableName);
-//        $query .= writeWhereCondition($conditionColumn, $conditionOperator, $conditionValue, NULL);
-//        return $query;
-//    }
-//    
-//    public function writeUpdateQuery($tableName, $setColumns, $setValues, $conditionColumns, $conditionValues) {
-//        $query = "UPDATE $tableName ";
-//        $query .= writeWhereCondition($conditionColumns, "=", $conditionValues, NULL);
-//        return $query;
-//        
-//    }
-//    
-//    private function writeSet($setColumns, $setValues) {
-//        $query = "SET ";
-//        if (!is_array($setColumns)) {
-//            $query .= writeOneSet($setColumns, $setValues);
-//        }
-//        else {
-//            $query .= writeSetArray($setColumns, $setValues);
-//        }
-//        return $query;
-//    }
-//    
-//    private function writeArraySet($setColumns, $setValues) {
-//        $length = sizeof($setColumns);
-//        $query = "";
-//        for ($i=0; $i < $length; $i++) {
-//            $query .= writeOneSet($setColumns[$i], $setValues[$i]);
-//            if ($i < $length - 1) {
-//                $query .= ", ";
-//            }
-//        }
-//        return $query;
-//    }
-//    
-//    private function writeOneSet($setColumn, $setValue) {
-//        $query = "";
-//        if (gettype($setValue) == "string") {
-//            $query .= "$setColumn = '$setValue'";
-//        }
-//        else {
-//            $query .= "$setColumn = $setValue";
-//        }
-//        return $query;
-//    }
-//
-//    private function writeWhereCondition($conditionColumns, $conditionOperators, $conditionValues, $logics) {
-//        $query = "WHERE ";
-//        if (!is_array($conditionColumns)) {
-//            $query .= writePartialCondition($conditionColumns, $conditionOperators, $conditionValues);
-//        }
-//        else {
-//            $query .= writeConditionArray($conditionColumns, $conditionOperators, $conditionValues, $logic);
-//        }
-//        return $query;
-//    }
-//    
-//    private function writeConditionArray($conditionColumns, $conditionOperators, $conditionValues, $logic) {
-//        $query = "";
-//        $length = sizeof($conditionColumns);
-//        for ($i = 0; $i < $length; $i++) {
-//            $query .= writePartialCondition($conditionColumns[$i], $conditionValues[$i]);
-//            if ($i < $length - 1) {
-//                $query .= $logic;
-//            }
-//            else {
-//                $query .= ";";
-//            }
-//        }
-//        return $query;
-//    }
-//    
-//    private function writePartialCondition($conditionColumn, $conditionOperator, $conditionValue) {
-//        $query = "";
-//        if (gettype($conditionValues) == "string") {
-//            $query = writeStringCondition($conditionColumn, $conditionOperator, $conditionValue);
-//        }
-//        else {
-//            $query = writeNonStringCondition($conditionColumn, $conditionOperator, $conditionValue);
-//        }
-//        return $query;
-//    }
-//    
-//    private function writeStringCondition($conditionColumn, $conditionOperator, $conditionValue) {
-//        $query = "$conditionColumn $conditionOperator '$conditionValue' ";
-//        return $query;
-//    }
-//    
-//    private function writeNonStringCondition($conditionColumn, $conditionOperator, $conditionValue) {
-//        $query = "$conditionColumn $conditionOperator $conditionValue ";
-//        return $query;
-//    }
-//    
-//    private function writeFrom($tableName) {
-//        $query = "FROM TABLE $tableName ";
-//        return $query;
-//    }
-//
-//
-//    private function writeSelectColumns($selectColumns) {
-//        $query = "SELECT ";
-//        if (!is_array($selectColumns)) {
-//            $query .= $selectColumns;
-//        }
-//        else {
-//            $query .= writeSelectWithArray($selectColumns);
-//        }
-//        return $query;
-//    }
-//    
-//    private function writeSelectWithArray($selectColumns) {
-//        $query = "";
-//        $length = sizeof($selectColumns);
-//        for ($i = 0; $i < $length; $i++) {
-//            if ($i < $length - 1) {
-//                $query .= "$selectColumns[$i], ";
-//            }
-//            else {
-//                $query .= "$selectColumns[$i] ";
-//            }
-//        }
-//        return $query;
-//    }
+
+        
+    // X can be any statistic except score;
+    public function teamAvgX() {
+        
+    }
 
 }
-
-$query = new Query();
 session_start();
+$query = new Query();
 $_SESSION['query'] = $query;
-
 
 ?>
