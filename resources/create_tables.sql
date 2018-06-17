@@ -77,6 +77,7 @@ CREATE TABLE Users (
   userID VARCHAR(255) PRIMARY KEY,
   isAdmin CHAR(1),
   password VARCHAR(255)
+# CHECK (CHAR_LENGTH(password) >= 8))
 );
 
 CREATE TABLE User_likeTeam(
