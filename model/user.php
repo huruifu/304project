@@ -109,11 +109,11 @@ class User {
         return $result;
     }
     
-    // division
-    public function getGameMeetRequirement(...$params) {
+    // division query;
+    public function getGameMeetRequirement($conditionColumnOne,$conditionColumnTwo) {
         global $query;
         global $connection;
-        $divQuery = $query -> writeDivisionQuery($params);
+        $divQuery = $query -> writeDivisionQuery($conditionColumnOne,$conditionColumnTwo);
         $result = mysqli_query($connection, $divQuery);
         if (!$result) {
             die("FAILED TO OPERATE" . mysqli_error($connection));
@@ -163,6 +163,8 @@ class User {
         
         $aggQuery = "SELECT t1.name, $aggregate(info) ";
         $aggQuery .= "FROM ($avgQuery) AS t1 ";
+        
+        
         $result = mysqli_query($connection, $aggQuery);
         if (!$result) {
             die("OPERATE FAILED " . mysqli_error($connection));
@@ -201,22 +203,27 @@ class User {
     }
     
     
-    //Selecting the top X players in a season based on number of average points, rebounds, steals, assists, or blocks per game.
-    public function getTopAvgStat($num, $orderBy) {
+    //Selecting the top $num players in a season based on number of $aggregation($orderby),
+    //$orderBy is a type of record, eg:points, rebounds, steals, assists, or blocks.
+    // $aggregation can be MAX, MIN, AVG or COUNT. (if its COUNT, then $orderBY is "*")
+    public function getTopAggStat($aggregation, $num, $orderBy) {
         global $query;
         global $connection;
-        $averageQuery = "SELECT p_name, AVG($orderBy) AS ord ";
-        $averageQuery .= "FROM ATTENDS ";
-        $averageQuery .= "GROUP BY p_name";
-        $rankQuery = "SELECT q1.p_name ";
-        $rankQuery .= "FROM ($averageQuery) AS q1 ";
-        $rankQuery .= "ORDER BY q1.ord ";
-        $rankQuery .= "LIMIT $num ";
+//        $averageQuery = "SELECT p_name, AVG($orderBy) AS ord ";
+//        $averageQuery .= "FROM ATTENDS ";
+//        $averageQuery .= "GROUP BY p_name";
+//        $rankQuery = "SELECT q1.p_name ";
+//        $rankQuery .= "FROM ($averageQuery) AS q1 ";
+//        $rankQuery .= "ORDER BY q1.ord ";
+//        $rankQuery .= "LIMIT $num ";
+        
+        $aggQuery = $query -> writeAggregateQuery("ATTENDS", $aggregation, $orderBy, "p_name");
+        $rankQuery = $query -> ranking_query("*", "($aggQuery)", "info" , $num, $b=1);
         $result = mysqli_query($connection, $rankQuery);
         if (!$result) {
             die("FAILED OPERATE" . mysqli_error($connection));
         }
-        return result;
+        return $result;
     }
     
     
@@ -225,13 +232,17 @@ class User {
     public function getPlayerMeetAvgRequirement($typeOfRecord, $operator, $value) {
         global $query;
         global $connection;
-        $averageQuery = "SELECT p_name, AVG($typeOfRecord) AS ord ";
-        $averageQuery .= "FROM ATTENDS ";
-        $averageQuery .= "GROUP BY p_name";
-        $rankQuery = "SELECT q1.p_name ";
-        $rankQuery .= "FROM ($averageQuery) AS q1 ";
-        $rankQuery .= "WHERE q1.ord $operator $value ";
-        $result = mysqli_query($connection, $rankQuery);
+        $aggQuery = $query -> writeAggregateQuery("ATTENDS", "AVG", $typeOfRecord, "p_name");
+//        $averageQuery = "SELECT p_name, AVG($typeOfRecord) AS ord ";
+//        $averageQuery .= "FROM ATTENDS ";
+//        $averageQuery .= "GROUP BY p_name";
+//        $rankQuery = "SELECT q1.p_name ";
+//        $rankQuery .= "FROM ($averageQuery) AS q1 ";
+//        $rankQuery .= "WHERE q1.ord $operator $value ";
+        
+        
+        $selectQuery = $query -> writeSelectQuery("($aggQuery)", "*", "info", $operator, $value);
+        $result = mysqli_query($connection, $selectQuery);
         if (!$result) {
             die("FAILED OPERATE" . mysqli_error($connection));
         }
