@@ -110,6 +110,8 @@ class User {
     }
     
     // division query;
+    // Given 2 types of records (eg: $conditionColumnOne,$conditionColumnTwo), 
+    // return all players who have these 2 types of records > 10
     public function getGameMeetRequirement($conditionColumnOne,$conditionColumnTwo) {
         global $query;
         global $connection;
