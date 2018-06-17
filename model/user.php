@@ -2,6 +2,7 @@
 <?PHP include ($_SERVER['DOCUMENT_ROOT'].'/304projexct/query/query.php'); ?>
 <?php include ($_SERVER['DOCUMENT_ROOT'].'/304projexct/database/connection.php'); ?>
 
+
 <?php
 
 class User {
