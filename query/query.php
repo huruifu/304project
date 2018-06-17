@@ -23,7 +23,7 @@ class Query {
     // in a game, given its $g_location and $g_time
     //echo 'here';
     $query = "SELECT P.p_name, P.t_name, MAX($record)
-                FROM Attends A, Players P
+                FROM ATTENDS A, PLAYERHAS P
                 WHERE A.g_location = '$g_location' AND
                     A.p_name = P.p_name AND A.g_time = '$g_time'
                 GROUP BY P.t_name";
@@ -57,19 +57,17 @@ class Query {
         return $query;
     }
  
-    public function insertQuery($tableName, ...$params) {
+    public function insertQuery($tableName, $params) {
         $query = "INSERT INTO $tableName ";
         $query .= "VALUES (";
         $length = sizeof($params);
         for ($i=0; $i<$length; $i++) {
             if ($i < $length - 1) {
-                echo $params[$i];
                 if (gettype($params[$i]) == "string") {
                     $query .= "'$params[$i]', ";
                 }
                 else {
-                    $query .= $params[$i];
-                    $query .= ", ";
+                    $query .= "$params[$i], ";
                 }
                 
             }
@@ -111,6 +109,7 @@ class Query {
         $query .= "WHERE $conditionColumn = '$conditionValue'";
         return $query;
     }
+    
     public function teamAvgScores(){
         $t1 = "SELECT team1 AS team, sum(scores1) AS sum1 ";
         $t1 .= "FROM GAMEPLAY ";
@@ -152,47 +151,23 @@ class Query {
         return $finalQuery;
     }
     
-    public function writeDivision() {
-        
+    // Given a player, select all games participated, which the players' behaviour satisfied // // certain requirement. 
+    // $params is array contains a set of associative arrays.
+    public function writeDivisionQuery($params) {
+        $length = sizeof($params);
+        $divQuery = "SELECT * ";
+        $divQuery .= "FROM ATTENDS ";
+        $divQuery .= "WHERE ";
+        for ($i = 0; $i < $length; $i++) {
+            $conditionColumn = key($params[$i]);
+            $conditionValue = $params[$i][$conditionColumn];
+            $divQuery .= "$conditionColumn > $conditionValue ";
+            if ($i < $length - 1) {
+                $divQuery .= "AND ";
+            }
+        }
+        return $divQuery;
     }
-
-
-        
-    // X can be any statistic except score;
-//    public function teamAvgX($aggerate) {
-//        $query = "SELECT p_name, SUM(rebounds) AS info ";
-//        $query .= "FROM ATTENDS ";
-//        $query .= "GROUP BY p_name ";
-//        
-//        $query1 = "SELECT p.t_name, SUM(t.info) ";
-//        $query1 .= "FROM ($query) AS t, PLAYERHAS AS p ";
-//        $query1 .= "WHERE p.p_name = t.p_name ";
-//        $query1 .= "GROUP BY p.t_name ";
-//        
-//        $hostNum = "SELECT team1 AS hostTeam, COUNT(*) AS hostNum ";
-//        $hostNum .= "FROM GAMEPLAY ";
-//        $hostNum .= "GROUP BY team1 ";
-//        
-//        $guestNum = "SELECT team2 AS guestTeam, COUNT(*) AS guestNum ";
-//        $guestNum .= "FROM GAMEPLAY ";
-//        $guestNum .= "GROUP BY team2 ";
-//        
-//        $joinQuery1 = "SELECT ht.hostTeam AS team, ht.hostNum AS hostMatch, gt.guestNum AS guestMatch ";
-//        $joinQuery1 .= "FROM ($hostNum) AS ht, ($guestNum) AS gt ";
-//        $joinQuery1 .= "WHERE ht.hostTeam = gt.guestTeam ";
-//        
-//        $sumNumQuery = "SELECT team, hostMatch + guestMatch AS totalMatch ";
-//        $sumNumQuery .= "FROM ($joinQuery1) AS jq ";
-//        
-//        $joinQuery = "SELECT s1.p.t_name, s1.SUM(t.info), s2.totalMatch AS matches ";
-//        $joinQuery .= "FROM ($query1) AS s1, ($sumNumQuery) AS s2 ";
-//        $joinQuery .= "WHERE s1.t_name = s2.team ";
-//        
-//        finalQuery = "SELECT t3.s1.p.t_name, t3.s1.SUM(t.info)/t3.matches ";
-//        finalQuery .= "FROM ($joinQuery) AS t3 ";
-//        
-//        return $finalQuery;
-//    }
 
 }
 
