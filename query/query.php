@@ -3,17 +3,28 @@
 class Query {
     
     // team
-    public function ranking_query($table, $c, $n, $b=1){
+    public function ranking_query($selectColumn, $table, $c, $n, $b=1){
     // Get top $n from $table ordered by $c; $b is 1 defaultly 
     // means odered by DESC, if $b is 0 then ordered by ASC
-        if ($b){
-            $query = "SELECT * FROM $table ORDER BY $c DESC LIMIT $n;";
+        $query = "";
+        
+        if ($selectColumn == "*") {
+            $query .= "SELECT * ";
         }
         else {
-            $query = "SELECT * FROM $table
-                    ORDER BY $c ASC
-                    LIMIT $n;";
+            $query .= "SELECT T.$selectColumn ";
         }
+        
+        $query .= "FROM $table AS T ";
+        
+        if ($b){
+            $query .= "ORDER BY T.$c DESC ";
+        }
+        else {
+            $query .= "ORDER BY T.$c ASC ";
+        }
+        
+        $query .= "LIMIT $n ";
         return $query;
     }
     
@@ -22,36 +33,54 @@ class Query {
     // From $attends table, pick one player in a $team, who got the // highest $record
     // in a game, given its $g_location and $g_time
     //echo 'here';
-    $query = "SELECT P.p_name, P.t_name, MAX($record)
-                FROM ATTENDS A, PLAYERHAS P
-                WHERE A.g_location = '$g_location' AND
-                    A.p_name = P.p_name AND A.g_time = '$g_time'
-                GROUP BY P.t_name";
+//    $query = "SELECT P.p_name, P.t_name, MAX($record)
+//                FROM ATTENDS A, PLAYERHAS P
+//                WHERE A.g_location = '$g_location' AND
+//                    A.p_name = P.p_name AND A.g_time = '$g_time'
+//                GROUP BY P.t_name";
+        
+        $query = "SELECT P.p_name, P.t_name, MAX($record) ";
+        $query .= "FROM ATTENDS A, PLAYERHAS P ";
+        $query .= "WHERE A.g_location = '$g_location' AND A.p_name = P.p_name AND A.g_time = '$g_time' ";
+        $query .= "GROUP BY P.t_name ";
         return $query;
     }
     
     
     
     public function writeSelectQuery($tableName, $selectColumn, $conditionColumn, $operator, $conditionValue) {
-        $query = "SELECT DISTINCT $selectColumn ";
-        $query .= "FROM $tableName ";
-        if (gettype($conditionValue) == "string") {
-            $query .= " WHERE $conditionColumn = '$conditionValue' ";
+        $query = "";
+        if ($selectColumn == "*") {
+            $query = "SELECT DISTINCT $selectColumn ";
         }
         else {
-            $query .= " WHERE $conditionColumn $operator $conditionValue ";
+            $query = "SELECT DISTINCT T.$selectColumn ";
+        }
+        //$query = "SELECT DISTINCT table.$selectColumn ";
+        $query .= "FROM $tableName AS T ";
+        if (gettype($conditionValue) == "string") {
+            $query .= " WHERE T.$conditionColumn = '$conditionValue' ";
+        }
+        else {
+            $query .= " WHERE T.$conditionColumn $operator $conditionValue ";
         }
         return $query;
     }
     
     public function writeSelectQueryWithoutWhere($tableName, $selectColumn) {
-        $query = "SELECT DISTINCT $selectColumn ";
-        $query .= "FROM $tableName ";
+        if ($selectColumn == "*") {
+            $query = "SELECT DISTINCT $selectColumn ";
+        }
+        else {
+            $query = "SELECT DISTINCT T.$selectColumn ";
+        }
+        //$query = "SELECT DISTINCT table.$selectColumn ";
+        $query .= "FROM $tableName AS T ";
         return $query;
     }
 
     public function writeAggregateQuery($tableName, $aggregation, $aggregateColumn, $selectColumn) {
-        $query = "SELECT $selectColumn, $aggregation($aggregateColumn) ";
+        $query = "SELECT $selectColumn, $aggregation($aggregateColumn) AS info ";
         $query .= "FROM $tableName ";
         $query .= "GROUP BY $selectColumn ";
         return $query;
@@ -153,19 +182,10 @@ class Query {
     
     // Given a player, select all games participated, which the players' behaviour satisfied // // certain requirement. 
     // $params is array contains a set of associative arrays.
-    public function writeDivisionQuery($params) {
-        $length = sizeof($params);
+    public function writeDivisionQuery($conditionColumnOne, $conditionColumnTwo) {
         $divQuery = "SELECT * ";
         $divQuery .= "FROM ATTENDS ";
-        $divQuery .= "WHERE ";
-        for ($i = 0; $i < $length; $i++) {
-            $conditionColumn = key($params[$i]);
-            $conditionValue = $params[$i][$conditionColumn];
-            $divQuery .= "$conditionColumn > $conditionValue ";
-            if ($i < $length - 1) {
-                $divQuery .= "AND ";
-            }
-        }
+        $divQuery .= "WHERE $conditionColumnOne >= 10 AND $conditionColumnTwo >= 10 ";
         return $divQuery;
     }
 
