@@ -1,10 +1,6 @@
 <?php include "player.php"; ?>
-<?PHP include "query.php"; ?>
-<?php
-$path = $_SERVER['DOCUMENT_ROOT'];
-$path .= "/databse/header.php";
-include $path ;
-?>
+<?PHP include ($_SERVER['DOCUMENT_ROOT'].'/304projexct/query/query.php'); ?>
+<?php include ($_SERVER['DOCUMENT_ROOT'].'/304projexct/database/connection.php'); ?>
 
 <?php
 
@@ -15,8 +11,8 @@ class User {
     private $favoritePLayer = NULL;
     
     
-    function __construct($username, $password, $isAdmin) {
-        $this -> userName = $username;
+    function __construct($userID, $password, $isAdmin) {
+        $this -> userID = $userID;
         $this -> password = $password;
         $this -> isAdmin = $isAdmin;
     }
@@ -30,6 +26,8 @@ class User {
     
     // User can update their favorite player.
     public function setFavoritePlayer($playerName) {
+        global $query;
+        global $connection;
         $updateQuery = $query -> updateQuery("USERS", "favPlayer", $playerName, "userID", $this->userID);
         $result = mysqli_error($connection, $updateQuery);
         if (!$result) {
@@ -43,11 +41,11 @@ class User {
         if (isset($playerName)) {
             global $query;
             global $connection;
-            $selectQuery = $query -> writeSelectQuery("PlayerHas", "*", "name", "=", $playerName);
+            $selectQuery = $query -> writeSelectQuery("PLAYERHAS", "*", "p_name", "=", $playerName);
             $result = mysqli_query($connection, $query);
             $row = mysqli_fetch_assoc($result);
             $age = $row['age'];
-            $jerseyNum = $row['jersey_num'];
+            $jerseyNum = $row['jersey_Num'];
             $nationality = $row['nationality'];
             $player = new Player($playerName, $age, $nationality, $jerseyNum);
             return $player;
@@ -59,8 +57,7 @@ class User {
     public function getTopTeam($orderBy, $topNum) {
         global $query;
         global $connection;
-        $teams = array();
-        $queryL = $query -> ranking_query("Teams", $orderBy, $topNum);
+        $queryL = $query -> ranking_query("TEAM", $orderBy, $topNum);
         $result = mysqli_query($connection, $queryL);
         if (!$result) {
             die("FAILED TO OPERATE" . mysqli_error($connection));
@@ -71,9 +68,11 @@ class User {
     
     //Searching for all games related to the user-selected team.
     public function getAllGamesParticipated($teamName) {
+        global $query;
+        global $connection;
         $selectQuery = "SELECT * ";
-        $selectQuery .= "FROM Gameplay ";
-        $selectQuery .= "WHERE t_name1 = '$teamName' OR t_name2 = '$teamName' ";
+        $selectQuery .= "FROM GAMEPLAY ";
+        $selectQuery .= "WHERE team1 = '$teamName' OR team2 = '$teamName' ";
         $result = mysqli_query($connection, $selectQuery);
         if (!$result) {
             die("FAILED TO OPERATE" . mysqli_error($connection));
@@ -86,7 +85,7 @@ class User {
     public function selectSpecificGame($time, $location) {
         global $query;
         global $connection;
-        $selectQuery = "SELECT * FROM Game_play WHERE g_time= '$time' AND g_location = $location ";
+        $selectQuery = "SELECT * FROM GAMEPLAY WHERE g_time= '$time' AND g_location = $location ";
         $result = mysqli_query($connection, $selectQuery);
         if (!$result) {
             die("FAILED TO OPERATE" . mysqli_error($connection));
@@ -100,8 +99,22 @@ class User {
     
     // get players who get the most record in a given game.
     public function getTopPlayerInGame($g_location, $g_time, $team, $record) {
+        global $query;
+        global $connection;
         $selectQuery = $query -> topPlayer_game($g_location, $g_time, $team, $record);
         $result = mysqli_query($connection, $selectQuery);
+        if (!$result) {
+            die("FAILED TO OPERATE" . mysqli_error($connection));
+        }
+        return $result;
+    }
+    
+    // division
+    public function getGameMeetRequirement(...$params) {
+        global $query;
+        global $connection;
+        $divQuery = $query -> writeDivisionQuery($params);
+        $result = mysqli_query($connection, $divQuery);
         if (!$result) {
             die("FAILED TO OPERATE" . mysqli_error($connection));
         }
@@ -119,7 +132,9 @@ class User {
     //Calculating one player’s average statistics per game (points, rebounds, steals, assists, or blocks).
     // $aggregateColumn is the type of record.
     public function getAverageX($playerName, $aggregateColumn) {
-        $averageQuery = $query -> writeAggregateQuery("Attends", "AVG", $aggregateColumn, "p_name");
+        global $query;
+        global $connection;
+        $averageQuery = $query -> writeAggregateQuery("ATTENDS", "AVG", $aggregateColumn, "p_name");
         $averageQuery .= "HAVING p_name = '$playerName' ";
         $result = mysqli_query($connection, $averageQuery);
         return $result;
@@ -127,6 +142,8 @@ class User {
     
     // Calculating EVERY player’s average statistics per game (points, rebounds, steals, assists, or blocks).
     public function getAllPlayerAverageX($aggregateColumn) {
+        global $query;
+        global $connection;
         $averageQuery = $query -> writeAggregateQuery("ATTENDS", "AVG", $aggregateColumn, "p_name");
         $result = mysqli_query($connection, $averageQuery);
         if (!$result) {
@@ -138,6 +155,8 @@ class User {
     // get the minimum or maximum among all average.
     // $aggregate is MAX or MIN
     public function getMaxOrMinAvgX($aggregateColumn, $aggregate) {
+        global $query;
+        global $connection;
         $avgQuery = "SELECT p_name AS name, AVG($aggregateColumn) AS info ";
         $avgQuery .= "FROM ATTENDS ";
         $avgQuery .= "GROUP BY p_name ";
@@ -157,7 +176,9 @@ class User {
     
     //Presenting players whose specific statistics in one game (points, rebounds, steals, assists, or blocks) are greater or less than one specific number that users input.
     public function getPlayersMeetRequirment($typeOfRecord, $operator, $value) {
-        $selectQuery = $query -> writeSelectQuery('Attends', 'p_name', $typeOfRecord, $operator, $value);
+        global $query;
+        global $connection;
+        $selectQuery = $query -> writeSelectQuery('ATTENDS', 'p_name', $typeOfRecord, $operator, $value);
         $result = mysqli_query($connection, $selectQuery);
         if (!$result) {
             die("FAILED OPERATE" . mysqli_error($connection));
@@ -169,7 +190,9 @@ class User {
     //Selecting the top X players in a season based on number of MVP, All-Star
     //requirement is MVP or ALL-STAR
     public function getTopXCareer($num, $requirement) {
-        $selectQuery = $query -> ranking_query('Career', $requirement, $num);
+        global $query;
+        global $connection;
+        $selectQuery = $query -> ranking_query('CAREER', $requirement, $num);
         $result = mysqli_query($connection, $selectQuery);
         if (!$result) {
             die("FAILED OPERATE" . mysqli_error($connection));
@@ -180,8 +203,10 @@ class User {
     
     //Selecting the top X players in a season based on number of average points, rebounds, steals, assists, or blocks per game.
     public function getTopAvgStat($num, $orderBy) {
+        global $query;
+        global $connection;
         $averageQuery = "SELECT p_name, AVG($orderBy) AS ord ";
-        $averageQuery .= "FROM Attends ";
+        $averageQuery .= "FROM ATTENDS ";
         $averageQuery .= "GROUP BY p_name";
         $rankQuery = "SELECT q1.p_name ";
         $rankQuery .= "FROM ($averageQuery) AS q1 ";
@@ -198,8 +223,10 @@ class User {
     // Given specific score, rebound, assist, steal and block, choose all players whose average scores, rebounds, assists, steals and blocks is greater than the values respectively.
 
     public function getPlayerMeetAvgRequirement($typeOfRecord, $operator, $value) {
+        global $query;
+        global $connection;
         $averageQuery = "SELECT p_name, AVG($typeOfRecord) AS ord ";
-        $averageQuery .= "FROM Attends ";
+        $averageQuery .= "FROM ATTENDS ";
         $averageQuery .= "GROUP BY p_name";
         $rankQuery = "SELECT q1.p_name ";
         $rankQuery .= "FROM ($averageQuery) AS q1 ";
@@ -226,6 +253,16 @@ class User {
          }
          return $result;
      }
+    
+    public function insertData($tableName, ...$params) {
+        global $query;
+        global $connection;
+        $insertQuery = $query -> insertQuery($tableName, $params);
+        $result = mysqli_query($connection, $insertQuery);
+         if (!$result) {
+             die("FAILED TO OPERATE" . mysqli_error($connection));
+         }
+    }
     
     
     // delete some tuples. Only admin can do it.
