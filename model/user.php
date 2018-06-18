@@ -273,7 +273,7 @@ class User {
     public function insertData($tableName, $params) {
         global $query;
         global $connection;
-        if ($this->isAdmin) {
+        if ($this->isAdmin == "Y") {
             $insertQuery = $query -> insertQuery($tableName, $params);
             $result = mysqli_query($connection, $insertQuery);
             if (!$result) {
@@ -292,7 +292,7 @@ class User {
     public function delete($tableName, $conditionColumn, $conditionValue) {
         global $query;
         global $connection;
-        if ($this->isAdmin) {
+        if ($this->isAdmin == "Y") {
             $delQuery = $query -> deleteQuery($tableName, $conditionColumn, $conditionValue);
             $result = mysqli_query($connection, $delQuery);
             if (!$result) {
@@ -310,7 +310,7 @@ class User {
     public function update($tableName, $upDateColumn, $value, $condColumn, $condValue) {
         global $query;
         global $connection;
-        if ($this -> isAdmin) {
+        if ($this -> isAdmin == "Y") {
             $upQuery = updateQuery($tableName, $upDateColumn, $value, $condColumn, $condValue);
             $result = mysqli_query($connection, $delQuery);
             if (!$result) {
