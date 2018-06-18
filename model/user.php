@@ -1,6 +1,6 @@
 <?php include "player.php"; ?>
 <?php include "../query/query.php"; ?>
-<?php include ($_SERVER['DOCUMENT_ROOT'].'/304projexct/database/connection.php'); ?>
+<?php include "../database/connection.php"; ?>
 
 
 <?php
