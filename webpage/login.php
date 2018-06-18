@@ -27,9 +27,9 @@ if (isset($_POST['register'])) {
 </head>
 <body>
 <div id='form'>
-   <form style="display: inline-flex" id='register' action=signup method='post'
+   <form style="display: inline-flex" id='register' action="form_process.php" method='post'
     accept-charset='UTF-8'>
-
+    <fieldset>
 <legend>Sign Up</legend>
     <input type="text" name = "username" placeholder="Enter Username"><br>
     <input type="password" name = "password" placeholder="Enter Password"><br>
@@ -41,7 +41,8 @@ if (isset($_POST['register'])) {
 <legend>Sign In</legend>   
     <input type="text" name = "username" placeholder="Enter Username"><br>
     <input type="password" name = "password" placeholder="Enter Password"><br>
-    <input type="submit" name = "submit" value = "SIGN IN">     
+    <input type="submit" name = "submit" value = "SIGN IN">    
+    </fieldset> 
 </form>
 </div>
 </body>
