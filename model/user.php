@@ -4,7 +4,7 @@
 
 
 <?php
-
+$query = new Query();
 class User {
     private $userID;
     private $password;
