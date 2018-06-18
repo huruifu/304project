@@ -1,71 +1,63 @@
 function handleQuery(id){
     const inputs = document.getElementById(id).getElementsByTagName('input');
-    console.log('handled');
-    let params = ['a','b','c'];
-    // for(i = 0; i<inputs.size(); i++){
-    //     params[i] = inputs[i].value();
-    // };
+    console.log('handledddd');
+    let params = [];
+    for(i = 0; i<inputs.length; i++){
+        params[i] = inputs[i].value;
+    };
+    console.log(params);
     $.ajax({
-        url: "test.php",
+        url: "../query/queryHandler.php",
         type:'POST',
         data: {
             test: '',
             params,
         },
-        dataType: 'json',
         success: function(result){
-            console.log('afhwkfaw');
-        $("#team_result").html("<b>id: </b>"+result+"<b> : </b>");
+        console.log(result);
+        $("#team_result").append(result);
     }});
 }
 
 function showTeams(){
     $.ajax({
-        url: "../model/player.php",
+        url: "../query/queryHandler.php",
         type:'POST',
         data: {
-            team: '',
+            id: 'team',
+            params:[],
         },
-        dataType: 'json',
         success: function(result){
-            console.log('afhwkfaw');
-        $("#team_result").html("<ul>"+
-        "<li>LA Lakers</li>"+
-        "<li>Raptors</li>"+
-        "<li>whatever</li>"+
-      "</ul>");
+        console.log(result);
+        $("#team_result").append(result);
     }});
 }
 
 function showPlayers(){
     $.ajax({
-        url: "test.php",
+        url: "../query/queryHandler.php",
         type:'POST',
         data: {
-            player:'',
+            id: 'player',
+            params:[],
         },
-        dataType: 'json',
         success: function(result){
-            console.log('playerererere');
-        $("#player_result").html("<ul>"+
-        "<li>Stephen Curry</li>"+
-        "<li>Kobe Bryant</li>"+
-        "<li>Chris Paul</li>"+
-      "</ul>");
+        console.log(result);
+        $("#player_result").append(result);
     }});
 }
 
 function showGames(){
     $.ajax({
-        url: "test.php",
+        url: "../query/queryHandler.php",
         type:'POST',
         data: {
-            game:'',
+            id: 'game',
+            params:[],
         },
-        dataType: 'json',
         success: function(result){
-            console.log('afhwkfaw');
-        $("#team_q1_result").html("<b>id: </b>"+result+"<b> : </b>");
+        console.log(result);
+        $("#game_result").append(result);
     }});
 }
 

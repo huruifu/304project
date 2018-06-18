@@ -1,5 +1,4 @@
 <?php
-
 class Query {
     
     // team
@@ -67,12 +66,6 @@ class Query {
         return $query;
     }
     
-<<<<<<< HEAD
-    public function writeAggregateQuery($tableName, $aggregation, $aggregateColumn, $selectColumn) {
-        $query = "SELECT $selectColumn, $aggregation($aggregateColumn) ";
-        $query .= "FROM $tableName ";
-        $query .= "GROUP BY $selectColumn ";
-=======
     public function writeSelectQueryWithoutWhere($tableName, $selectColumn) {
         if ($selectColumn == "*") {
             $query = "SELECT DISTINCT $selectColumn ";
@@ -82,10 +75,8 @@ class Query {
         }
         //$query = "SELECT DISTINCT table.$selectColumn ";
         $query .= "FROM $tableName AS T ";
->>>>>>> 9775271ddb157a765c719128be05a244a66d7e3c
         return $query;
     }
-
     public function writeAggregateQuery($tableName, $aggregation, $aggregateColumn, $selectColumn) {
         $query = "SELECT $selectColumn, $aggregation($aggregateColumn) AS info ";
         $query .= "FROM $tableName ";
@@ -139,8 +130,6 @@ class Query {
         return $upDate;
         
     }
-<<<<<<< HEAD
-=======
     
     public function deleteQuery($tableName, $conditionColumn, $conditionValue) {
         $query = "DELETE FROM $tableName ";
@@ -197,9 +186,5 @@ class Query {
         $divQuery .= "WHERE $conditionColumnOne >= 10 AND $conditionColumnTwo >= 10 ";
         return $divQuery;
     }
->>>>>>> 9775271ddb157a765c719128be05a244a66d7e3c
-
 }
-
-
 ?>

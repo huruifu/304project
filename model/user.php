@@ -94,7 +94,6 @@ class User {
         return $result;
     }
     
-
    
     //Games Query
     
@@ -124,7 +123,6 @@ class User {
         return $result;
     }
     
-
     
  
     
@@ -231,7 +229,6 @@ class User {
     
     
     // Given specific score, rebound, assist, steal and block, choose all players whose average scores, rebounds, assists, steals and blocks is greater than the values respectively.
-
     public function getPlayerMeetAvgRequirement($typeOfRecord, $operator, $value) {
         global $query;
         global $connection;
@@ -304,6 +301,5 @@ class User {
             }
         }
     }
-
 }
 ?>

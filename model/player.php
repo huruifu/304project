@@ -1,4 +1,4 @@
-<?PHP include "connection.php"; ?>
+<?PHP include "../database/connection.php"; ?>
 <?PHP include "query.php"; ?>
 <?php
 session_start();
