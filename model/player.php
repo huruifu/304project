@@ -1,5 +1,5 @@
-<?PHP include "connection.php"; ?>
-<?PHP include "query.php"; ?>
+<?php include "../database/connection.php"; ?>
+<?php include "query.php"; ?>
 <?php
 session_start();
 $query = $_SESSION['query'];

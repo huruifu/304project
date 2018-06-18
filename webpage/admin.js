@@ -1,5 +1,7 @@
 $(document).ready(function(){
     console.log('readyyyy');
+    $("#" + 'game').children().hide();
+    $("#" + 'player').children().hide();
     showTeams();
 });
 
@@ -37,18 +39,3 @@ function onSelectTab(name){
         }
     });
 };
-
-
-
-
-// const renderPlayer = () => {
-//     showPlayers();
-// }
-
-// const renderGame = () => {
-//     showGames();
-// }
-
-// $(document).ready(
-//     showTeams()
-// );

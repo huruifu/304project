@@ -1,4 +1,4 @@
-<?php include "player.php"; ?>
+<!-- <?php include "player.php"; ?> -->
 <?php include "../query/query.php"; ?>
 <?php include "../database/connection.php"; ?>
 
@@ -58,7 +58,8 @@ class User {
     public function getTopTeam($orderBy, $topNum) {
         global $query;
         global $connection;
-        $queryL = $query -> ranking_query("TEAM", $orderBy, $topNum);
+        echo 'handle~~';
+        $queryL = $query -> ranking_query("*", "TEAM", $orderBy, $topNum);
         $result = mysqli_query($connection, $queryL);
         if (!$result) {
             die("FAILED TO OPERATE" . mysqli_error($connection));
@@ -86,7 +87,7 @@ class User {
     public function selectSpecificGame($time, $location) {
         global $query;
         global $connection;
-        $selectQuery = "SELECT * FROM GAMEPLAY WHERE g_time= '$time' AND g_location = $location ";
+        $selectQuery = "SELECT * FROM GAMEPLAY WHERE g_time= '$time' AND g_location = '$location' ";
         $result = mysqli_query($connection, $selectQuery);
         if (!$result) {
             die("FAILED TO OPERATE" . mysqli_error($connection));
@@ -97,7 +98,7 @@ class User {
    
     //Games Query
     
-    // get players who get the most record in a given game.
+    // get player who get the most record in a given game.
     public function getTopPlayerInGame($g_location, $g_time, $team, $record) {
         global $query;
         global $connection;
@@ -112,7 +113,7 @@ class User {
     // division query;
     // Given 2 types of records (eg: $conditionColumnOne,$conditionColumnTwo), 
     // return all players who have these 2 types of records > 10
-    public function getGameMeetRequirement($conditionColumnOne,$conditionColumnTwo) {
+    public function getGameMeetRequirement($conditionColumnOne, $conditionColumnTwo) {
         global $query;
         global $connection;
         $divQuery = $query -> writeDivisionQuery($conditionColumnOne,$conditionColumnTwo);
@@ -155,16 +156,23 @@ class User {
     
     // get the minimum or maximum among all average.
     // $aggregate is MAX or MIN
-    public function getMaxOrMinAvgX($aggregateColumn, $aggregate) {
+    public function getMaxOrMinAvgX($agg, $aggregateColumn, $aggregate) {
         global $query;
         global $connection;
-        $avgQuery = "SELECT p_name AS name, AVG($aggregateColumn) AS info ";
-        $avgQuery .= "FROM ATTENDS ";
-        $avgQuery .= "GROUP BY p_name ";
+//        $avgQuery = "SELECT p_name AS name, $agg($aggregateColumn) AS info ";
+//        $avgQuery .= "FROM ATTENDS ";
+//        $avgQuery .= "GROUP BY p_name ";
         
-        $aggQuery = "SELECT t1.name, $aggregate(info) ";
+        $avgQuery = $query -> writeAggregateQuery("ATTENDS", $agg, $aggregateColumn, "p_name");
+        
+        $aggQuery = "SELECT t1.p_name, t1.info ";
         $aggQuery .= "FROM ($avgQuery) AS t1 ";
+        $aggQuery .= "WHERE t1.info = (SELECT $aggregate(t2.info) FROM ($avgQuery) AS t2)";
         
+//        $aggQueryone = $query -> writeAggregateQuery($tableName, $aggregation, $aggregateColumn, $selectColumn);
+//        //$selectQuery = $query -> writeSelectQueryWithoutWhere("($aggQuery)", "*");
+//        $aggQueryTwo = "SELECT t1.$selectColumn, $maxMin(t1.info) ";
+//        $aggQueryTwo .= "FROM ($aggQueryOne) AS t1 ";
         
         $result = mysqli_query($connection, $aggQuery);
         if (!$result) {
@@ -173,7 +181,6 @@ class User {
         return $result;
         
     }
-    
     
     
     
@@ -195,12 +202,13 @@ class User {
     public function getTopXCareer($num, $requirement) {
         global $query;
         global $connection;
-        $selectQuery = $query -> ranking_query('CAREER', $requirement, $num);
+        $selectQuery = $query -> ranking_query('*', 'CAREER', $requirement, $num);
+        echo $selectQuery;
         $result = mysqli_query($connection, $selectQuery);
         if (!$result) {
             die("FAILED OPERATE" . mysqli_error($connection));
         }
-        return $results;
+        return $result;
     }
     
     

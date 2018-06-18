@@ -1,4 +1,4 @@
-<?php include '../model/user.php'; ?>
+<?php include '../model/user.php' ?>
 <?php
 function array_result($result)
 {
@@ -19,7 +19,7 @@ function array_result($result)
 function createTable(array $results = array())
 {
     if (empty($results)) {
-        return '<table><tr><td>Empty Result Set</td></tr></table>';
+        return 'There is no result for your query, please try again.';
     }
 
     // dynamically create the header information from the keys
@@ -28,20 +28,17 @@ function createTable(array $results = array())
     $keys = array_keys(reset($results));
     $table.='<thead><tr>';
     foreach ($keys as $key) {
-        $table.='<th>'.$key.'</th>';
+        $table.='<th>'.$key;
     }
-    $table.='</tr></thead>';
 
     // populate the main table body
     $table.='<tbody>';
     foreach ($results as $result) {
         $table.='<tr>';
         foreach ($result as $val) {
-            $table.='<td>'.$val.'</td>';
+            $table.='<td>'.$val;
         }
-        $table.='</tr>';
     }
-    $table.='</tbody></table>';
     return $table;
 }
     if(isset($_POST['id'])){
@@ -49,9 +46,6 @@ function createTable(array $results = array())
         $params = $_POST['params'];
         echo $params[0];
         $user=new User("shiki", "123", false);
-        // $result = $user->getTopTeam('wins', 10);
-        // $test = mysqli_fetch_assoc($result);
-        // echo json_encode($result);
 
         switch ($id) {
             case 'team':
@@ -64,7 +58,7 @@ function createTable(array $results = array())
                 $result = $user->getAllX('playerhas');
                 break;
             case'team_q1':
-                $result = $user->getTopTeam($params[1], $params[0]);
+                $result = $user->getTopTeam('wins', 10);
                 break;
             case 'team_q2':
                 $result = $user->getAllGamesParticipated($params[0]);
@@ -73,23 +67,33 @@ function createTable(array $results = array())
                 $result = $user->selectSpecificGame($params[1], $params[0]);
                 break;
             case 'player_q1':
-                //TODO 
+                $result = $user->getAverageX($params[0], $params[1]);
                 break;
             case 'player_q2':
-                //TODO  
+                $result = $user->getAllPlayerAverageX($params[0]);
                 break;
             case 'player_q3':
-                //TODO 
+                $result = $user->getMaxOrMinAvgX($params[1], $params[0], $params[2]);
+                break;
+            case 'player_q4':
+                $result = $user->getPlayersMeetRequirment($params[0], $params[1], $params[2]);
+                break;
+            case 'player_q5':
+                $requirement = $params[1].'_NUM';
+                $result = $user->getTopXCareer($params[0], $requirement);
+                break;
+            case 'player_q6':
+            break;
+            case 'player_q7':
+                $result = $user->getPlayerMeetAvgRequirement($params[0], $params[1], $params[2]);
                 break;
             case 'game_q1':
-                $result = $user->getTopPlayerInGame($params[3], $params[2], $params[1], $params[0]);
+                $result = $user->getTopPlayerInGame($params[1], $params[0], $params[2], $params[3]);
                 break;
             case 'game_q2':
-                //TODO
+                $result = $user->getGameMeetRequirement($params[0], $params[1]);
                 break;
-            case 'game_q3':
-                //TODO  
-                break;
+
         }
         $tableResult = createTable(array_result($result));
         echo json_encode($tableResult);

@@ -5,23 +5,56 @@ function handleQuery(id){
     for(i = 0; i<inputs.length; i++){
         params[i] = inputs[i].value;
     };
-    console.log(params);
-    $.ajax({
-        url: "../query/queryHandler.php",
-        type:'POST',
-        data: {
-            test: '',
-            params,
-        },
-        success: function(result){
-        console.log(result);
-        $("#team_result").append(result);
-    }});
+    console.log(id.indexOf('team'));
+
+    if(id.indexOf('team') == 0){
+        console.log('tessahkak');
+        $("#team_result").empty();
+        $.ajax({
+            url: "queryHandler.php",
+            type:'POST',
+            data: {
+                id,
+                params,
+            },
+            success: function(result){
+            console.log(result);
+            $("#team_result").append(result);
+        }});
+    };
+    if(id.indexOf('game') == 0){
+        $("#game_result").empty();
+        $.ajax({
+            url: "queryHandler.php",
+            type:'POST',
+            data: {
+                id,
+                params,
+            },
+            success: function(result){
+            console.log(result);
+            $("#game_result").append(result);
+        }});
+    };
+    if(id.indexOf('player') == 0){
+        $("#player_result").empty();
+        $.ajax({
+            url: "queryHandler.php",
+            type:'POST',
+            data: {
+                id,
+                params,
+            },
+            success: function(result){
+            console.log(result);
+            $("#player_result").append(result);
+        }});
+    };
 }
 
 function showTeams(){
     $.ajax({
-        url: "../query/queryHandler.php",
+        url: "queryHandler.php",
         type:'POST',
         data: {
             id: 'team',
@@ -35,7 +68,7 @@ function showTeams(){
 
 function showPlayers(){
     $.ajax({
-        url: "../query/queryHandler.php",
+        url: "queryHandler.php",
         type:'POST',
         data: {
             id: 'player',
@@ -49,7 +82,7 @@ function showPlayers(){
 
 function showGames(){
     $.ajax({
-        url: "../query/queryHandler.php",
+        url: "queryHandler.php",
         type:'POST',
         data: {
             id: 'game',

@@ -1,4 +1,4 @@
-<?php 
+<!-- <?php 
 $pathOne = $_SERVER['DOCUMENT_ROOT'];
 $pathOne .= "/database/connection.php";
 include $pathOne;
@@ -6,7 +6,7 @@ include $pathOne;
 $pathTwo = $_SERVER['DOCUMENT_ROOT'];
 $pathTwo .= "/model/user.php";
 include $pathTwo;
-?>
+?> -->
 
 
 <?php
