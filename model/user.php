@@ -1,5 +1,5 @@
 <?php include "player.php"; ?>
-<?PHP include ($_SERVER['DOCUMENT_ROOT'].'/304projexct/query/query.php'); ?>
+<?php include "../query/query.php"; ?>
 <?php include ($_SERVER['DOCUMENT_ROOT'].'/304projexct/database/connection.php'); ?>
 
 
