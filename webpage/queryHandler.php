@@ -96,7 +96,7 @@ function createTable(array $results = array())
 
         }
         $tableResult = createTable(array_result($result));
-        echo json_encode($tableResult);
+        echo $tableResult;
         return;
     };
 
