@@ -6,7 +6,7 @@ $query = $_SESSION['query'];
 class Player {
     private $name;
     private $age;
-    private $nationality
+    private $nationality;
     private $jerseyNum;
     
     function __construct($name, $age, $nationality, $jerseyNum) {
@@ -29,7 +29,7 @@ class Player {
     }
     
     public function getJerseyNum() {
-        return this->$jerseyNum;
+        return $this->$jerseyNum;
     }
     
     

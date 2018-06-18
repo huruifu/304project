@@ -1,0 +1,21 @@
+#form {
+    position: fixed;
+    width: 20%; /* Set your desired with */
+    z-index: 2; /* Make sure its above other items. */
+    top: 50%;
+    left: 50%;
+    margin-top: -10%; /* Changes with height. */
+    margin-left: -10%; /* Your width divided by 2. */
+
+    /* You will not need the below, its only for styling   purposes. */
+    padding: 10px;
+    border: 2px solid #ffffff;
+    background-color: #ccc;
+    opacity: 100%;
+    border-radius: 5px;
+    text-align: center;
+}
+
+body {
+    background-image: url(./background/nba.jpg);
+}
