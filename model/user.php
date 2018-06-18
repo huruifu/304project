@@ -265,14 +265,23 @@ class User {
          return $result;
      }
     
-    public function insertData($tableName, ...$params) {
+    // $params is an array contains values that needed to be inserted.
+    // The order of values is the same as the attribute of the given table.
+    public function insertData($tableName, $params) {
         global $query;
         global $connection;
-        $insertQuery = $query -> insertQuery($tableName, $params);
-        $result = mysqli_query($connection, $insertQuery);
-         if (!$result) {
-             die("FAILED TO OPERATE" . mysqli_error($connection));
-         }
+        if ($this->isAdmin) {
+            $insertQuery = $query -> insertQuery($tableName, $params);
+            $result = mysqli_query($connection, $insertQuery);
+            if (!$result) {
+                die("FAILED TO OPERATE" . mysqli_error($connection));
+            }
+            echo "OPERATION SUCCESS";
+        }
+        else {
+            die("NO PERMISSION TO  DO THIS OPERATION");
+        }
+        
     }
     
     
@@ -286,7 +295,12 @@ class User {
             if (!$result) {
                 die("FAILED TO OPERATE" . mysqli_error($connection));
             }
+            echo "OPERATION SUCCESS";
         }
+        else {
+            die("NO PERMISSION TO  DO THIS OPERATION");
+        }
+        
     }
     
     // update some values in some tuples. Only admin can do it.
@@ -299,6 +313,10 @@ class User {
             if (!$result) {
                 die("FAILED TO OPERATE" . mysqli_error($connection));
             }
+            echo "OPERATION SUCCESS";
+        }
+        else {
+            die("NO PERMISSION TO  DO THIS OPERATION");
         }
     }
 }
