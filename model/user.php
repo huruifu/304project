@@ -58,7 +58,7 @@ class User {
     public function getTopTeam($orderBy, $topNum) {
         global $query;
         global $connection;
-        echo 'handle~~';
+//        echo 'handle~~';
         $queryL = $query -> ranking_query("*", "TEAM", $orderBy, $topNum);
         $result = mysqli_query($connection, $queryL);
         if (!$result) {
@@ -87,7 +87,7 @@ class User {
     public function selectSpecificGame($time, $location) {
         global $query;
         global $connection;
-        $selectQuery = "SELECT * FROM GAMEPLAY WHERE g_time= '$time' AND g_location = '$location' ";
+        $selectQuery = "SELECT * FROM GAMEPLAY WHERE game_time = '$time' AND game_location = '$location' ";
         $result = mysqli_query($connection, $selectQuery);
         if (!$result) {
             die("FAILED TO OPERATE" . mysqli_error($connection));

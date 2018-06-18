@@ -1,14 +1,16 @@
 function handleQuery(id){
-    const inputs = document.getElementById(id).getElementsByTagName('input');
-    console.log('handledddd');
+    const inputs = document.querySelectorAll(`#${id} > [name="param"]`);
+    // console.log('handledddd');
     let params = [];
-    for(i = 0; i<inputs.length; i++){
+    for(let i = 0; i<inputs.length; i++) {
+        if (!inputs[i].value) { // empty input
+            return;
+        }
         params[i] = inputs[i].value;
-    };
-    console.log(id.indexOf('team'));
-
+    }
+    // console.log(id.indexOf('team'));
     if(id.indexOf('team') == 0){
-        console.log('tessahkak');
+        // console.log('tessahkak');
         $("#team_result").empty();
         $.ajax({
             url: "queryHandler.php",
@@ -18,7 +20,7 @@ function handleQuery(id){
                 params,
             },
             success: function(result){
-            console.log(result);
+            // console.log(result);
             $("#team_result").append(result);
         }});
     };
@@ -32,7 +34,7 @@ function handleQuery(id){
                 params,
             },
             success: function(result){
-            console.log(result);
+            // console.log(result);
             $("#game_result").append(result);
         }});
     };
@@ -46,7 +48,7 @@ function handleQuery(id){
                 params,
             },
             success: function(result){
-            console.log(result);
+            // console.log(result);
             $("#player_result").append(result);
         }});
     };
@@ -61,7 +63,7 @@ function showTeams(){
             params:[],
         },
         success: function(result){
-        console.log(result);
+        // console.log(result);
         $("#team_result").append(result);
     }});
 }
@@ -75,7 +77,7 @@ function showPlayers(){
             params:[],
         },
         success: function(result){
-        console.log(result);
+        // console.log(result);
         $("#player_result").append(result);
     }});
 }
@@ -89,7 +91,7 @@ function showGames(){
             params:[],
         },
         success: function(result){
-        console.log(result);
+        // console.log(result);
         $("#game_result").append(result);
     }});
 }

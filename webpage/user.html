@@ -24,22 +24,25 @@
     <div id='team' class='tabContent'>
         <div class="query" id="team_q1">
             Rank top
-            <input type="text" name="param1" placeholder="e.g. 10">
+            <input name="param" type="number" placeholder="e.g. 10">
             teams based on the number of
-            <input type="text" name="param1" placeholder="wins or losses">
+            <select name="param">
+                <option value="num_win">wins</option>
+                <option value="num_loss">losses</option>
+            </select>
             games
             <button inline type="submit" onclick="handleQuery('team_q1')">Query!</button>
         </div>
         <div class="query" id="team_q2">
             Show teams that have competed with
-            <input type="text" name="param1" placeholder="Team Name">
+            <input type="text" name="param" placeholder="Team Name">
             <button inline type="submit" onclick="handleQuery('team_q2')">Query!</button>
         </div>
         <div class="query" id="team_q3" >
                 Show teams that have played in
-                <input type="text" name="param1" placeholder="City">
+                <input type="text" name="param" placeholder="City">
                 at
-                <input type="text" name="param1" placeholder="Date">
+                <input type="text" name="param" placeholder="Date: (YYYY-MM-DD HH:MM:SS)">
                 <button inline type="submit" onclick="handleQuery('team_q3')">Query!</button>
         </div>    
         <div id="team_result"></div>
