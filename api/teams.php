@@ -1,5 +1,4 @@
 <?php include "../database/connection.php" ?>
-
 <?php
 
 # ENDPOINTS
@@ -16,8 +15,10 @@ $stat = $_GET['stat'];
 $query = "SELECT * FROM TEAM";
 
 if ($username) {
-    $query = "SELECT * FROM TEAM, USER_LIKETEAM WHERE TEAM.NAME = USER_LIKETEAM.TEAM_NAME AND USER_LIKETEAM.USERID = '$username'";
-
+    $query = "
+    SELECT * FROM TEAM
+    INNER JOIN USER_LIKETEAM L2 ON TEAM.NAME = L2.TEAM_NAME AND L2.USERID = '$username'
+    ";
 } else if ($topn) {
 
     if ($order && $order == "asc") {

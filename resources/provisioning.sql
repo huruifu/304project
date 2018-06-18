@@ -128,6 +128,16 @@ CREATE TABLE User_likePlayer(
 
 INSERT INTO Users VALUES ('admin_user', 'Y', 'password');
 INSERT INTO Users VALUES ('normal_user', 'N', 'password');
+INSERT INTO USER_LIKETEAM VALUES('normal_user', 'Oklahoma City Thunder');
+INSERT INTO USER_LIKETEAM VALUES('normal_user', 'Toronto Raptors');
+INSERT INTO USER_LIKETEAM VALUES('normal_user', 'Utah Jazz');
+INSERT INTO USER_LIKETEAM VALUES('normal_user', 'Memphis Grizzlies');
+INSERT INTO USER_LIKETEAM VALUES('normal_user', 'Miami Heat');
+INSERT INTO USER_LIKEPLAYER VALUES('normal_user', 'Steven Adams');
+INSERT INTO USER_LIKEPLAYER VALUES('normal_user', 'Tim Hardaway Jr.');
+INSERT INTO USER_LIKEPLAYER VALUES('normal_user', 'Tony Snell');
+INSERT INTO USER_LIKEPLAYER VALUES('normal_user', 'Trey Burke');
+INSERT INTO USER_LIKEPLAYER VALUES('normal_user', 'Victor Oladipo');
 INSERT INTO TEAM VALUES ('Oklahoma City Thunder', 'Oklahoma City', 2, 8);
 INSERT INTO TEAM VALUES ('Toronto Raptors', 'Toronto', 5, 6);
 INSERT INTO TEAM VALUES ('Utah Jazz', 'Utah', 6, 4);
@@ -339,7 +349,7 @@ INSERT INTO COACH VALUES ('Dale Osbourne', 'South Alabama', 'N', 'Portland Trail
 INSERT INTO COACH VALUES ('Jim Moran', 'William & Mary', 'N', 'Portland Trail Blazers', 5, 7);
 INSERT INTO COACH VALUES ('John McCullough', 'Oklahoma', 'N', 'Portland Trail Blazers', 5, 7);
 INSERT INTO COACH VALUES ('Geoff Clarke', 'Oregon State', 'N', 'Portland Trail Blazers', 5, 7);
-INSERT INTO COACH VALUES ('Joe Prunty', 'Cal Poly San Luis Obispo', 'Y', 'Milwaukee Bucks', 7, 4);
+INSERT INTO COACH VALUES ('Mike Budenholzer', 'Pomona College', 'Y', 'Milwaukee Bucks', 7, 4);
 INSERT INTO COACH VALUES ('Sean Sweeney', 'St. Thomas', 'N', 'Milwaukee Bucks', 7, 4);
 INSERT INTO COACH VALUES ('Scott Faust', 'Alabama-Huntsville', 'N', 'Milwaukee Bucks', 7, 4);
 INSERT INTO COACH VALUES ('Fred Hoiberg', 'Iowa State', 'Y', 'Chicago Bulls', 6, 5);
@@ -375,7 +385,7 @@ INSERT INTO COACH VALUES ('John-Blair Bickerstaff', 'Minnesota', 'Y', 'Memphis G
 INSERT INTO COACH VALUES ('Bob Bender', 'Duke', 'N', 'Memphis Grizzlies', 9, 3);
 INSERT INTO COACH VALUES ('Nick Van Exel', 'Cincinnati', 'N', 'Memphis Grizzlies', 9, 3);
 INSERT INTO COACH VALUES ('Adam Mazarei', 'Redlands', 'N', 'Memphis Grizzlies', 9, 3);
-INSERT INTO COACH VALUES ('Mike Budenholzer', 'Pomona College', 'Y', 'Atlanta Hawks', 5, 7);
+INSERT INTO COACH VALUES ('Lloyd Pierce', 'Santa Clara', 'Y', 'Atlanta Hawks', 5, 7);
 INSERT INTO COACH VALUES ('Melvin Hunt', 'Baylor', 'N', 'Atlanta Hawks', 5, 7);
 INSERT INTO COACH VALUES ('Chris Jent', 'Ohio State', 'N', 'Atlanta Hawks', 5, 7);
 INSERT INTO COACH VALUES ('Greg Foster', 'Texas-El Paso', 'N', 'Atlanta Hawks', 5, 7);
@@ -387,7 +397,7 @@ INSERT INTO COACH VALUES ('Juwan Howard', 'Michigan', 'N', 'Miami Heat', 6, 6);
 INSERT INTO COACH VALUES ('Chris Quinn', 'Notre Dame', 'N', 'Miami Heat', 6, 6);
 INSERT INTO COACH VALUES ('Octavio De La Grana', 'Liberty', 'N', 'Miami Heat', 6, 6);
 INSERT INTO COACH VALUES ('Jay Sabol', 'Florida International', 'N', 'Miami Heat', 6, 6);
-INSERT INTO COACH VALUES ('Steve Clifford', 'Maine-Farmington', 'Y', 'Charlotte Hornets', 5, 7);
+INSERT INTO COACH VALUES ('James Borrego', 'San Diego', 'Y', 'Charlotte Hornets', 5, 7);
 INSERT INTO COACH VALUES ('Stephen Silas', 'Brown', 'N', 'Charlotte Hornets', 5, 7);
 INSERT INTO COACH VALUES ('Pat Delany', 'St. Anselm', 'N', 'Charlotte Hornets', 5, 7);
 INSERT INTO COACH VALUES ('Bruce Kreutzer', '', 'N', 'Charlotte Hornets', 5, 7);
@@ -409,7 +419,8 @@ INSERT INTO COACH VALUES ('Jason March', 'Florida State', 'N', 'Sacramento Kings
 INSERT INTO COACH VALUES ('Larry Lewis', 'Morehouse', 'N', 'Sacramento Kings', 6, 7);
 INSERT INTO COACH VALUES ('Phil Ricci', 'Oregon State', 'N', 'Sacramento Kings', 6, 7);
 INSERT INTO COACH VALUES ('Pete Youngman', 'Ithaca', 'N', 'Sacramento Kings', 6, 7);
-INSERT INTO COACH VALUES ('Jeff Hornacek', 'Iowa State', 'Y', 'New York Knicks', 5, 6);
+INSERT INTO COACH VALUES ('David Fizdale', 'San Diego', 'Y', 'New York Knicks', 5, 6);
+INSERT INTO COACH VALUES ('Howard Eisley', 'Boston College', 'N', 'New York Knicks', 5, 6);
 INSERT INTO COACH VALUES ('Keith Smart', 'Indiana', 'N', 'New York Knicks', 5, 6);
 INSERT INTO COACH VALUES ('Jud Buechler', 'Arizona', 'N', 'New York Knicks', 5, 6);
 INSERT INTO COACH VALUES ('Pat Sullivan', 'North Carolina', 'N', 'New York Knicks', 5, 6);
@@ -423,11 +434,7 @@ INSERT INTO COACH VALUES ('Mark Madsen', 'Stanford', 'N', 'Los Angeles Lakers', 
 INSERT INTO COACH VALUES ('Brian Keefe', 'UNLV', 'N', 'Los Angeles Lakers', 7, 6);
 INSERT INTO COACH VALUES ('Miles Simon', 'Arizona', 'N', 'Los Angeles Lakers', 7, 6);
 INSERT INTO COACH VALUES ('Marco Nunez', 'Cal Poly-Pomona', 'N', 'Los Angeles Lakers', 7, 6);
-INSERT INTO COACH VALUES ('Frank Vogel', 'Kentucky', 'Y', 'Orlando Magic', 3, 10);
-INSERT INTO COACH VALUES ('Chad Forcier', 'Seattle Pacific', 'N', 'Orlando Magic', 3, 10);
-INSERT INTO COACH VALUES ('Corliss Williamson', 'Arkansas', 'N', 'Orlando Magic', 3, 10);
-INSERT INTO COACH VALUES ('Jay Hernandez', 'Hofstra', 'N', 'Orlando Magic', 3, 10);
-INSERT INTO COACH VALUES ('Keon Weise', 'Maryland', 'N', 'Orlando Magic', 3, 10);
+INSERT INTO COACH VALUES ('Steve Clifford', 'Maine-Farmington', 'Y', 'Orlando Magic', 3, 10);
 INSERT INTO COACH VALUES ('Rick Carlisle', 'Virginia', 'Y', 'Dallas Mavericks', 6, 8);
 INSERT INTO COACH VALUES ('Kaleb Canales', 'Texas-Arlington', 'N', 'Dallas Mavericks', 6, 8);
 INSERT INTO COACH VALUES ('Jamahl Mosley', 'Colorado', 'N', 'Dallas Mavericks', 6, 8);
@@ -463,7 +470,7 @@ INSERT INTO COACH VALUES ('Chris Finch', 'Franklin & Marshall', 'N', 'New Orlean
 INSERT INTO COACH VALUES ('Kevin Hanson', 'San Diego', 'N', 'New Orleans Pelicans', 7, 4);
 INSERT INTO COACH VALUES ('Fred Vinson', 'Georgia Tech', 'N', 'New Orleans Pelicans', 7, 4);
 INSERT INTO COACH VALUES ('Jamelle McMillan', 'Arizona State', 'N', 'New Orleans Pelicans', 7, 4);
-INSERT INTO COACH VALUES ('Stan Van Gundy', 'SUNY-Brockport', 'Y', 'Detroit Pistons', 6, 7);
+INSERT INTO COACH VALUES ('Dwane Casey', 'Kentucky', 'Y', 'Detroit Pistons', 6, 7);
 INSERT INTO COACH VALUES ('Bob Beyer', 'Alfred', 'N', 'Detroit Pistons', 6, 7);
 INSERT INTO COACH VALUES ('Malik Allen', 'Villanova', 'N', 'Detroit Pistons', 6, 7);
 INSERT INTO COACH VALUES ('Tim Hardaway', 'Texas-El Paso', 'N', 'Detroit Pistons', 6, 7);
@@ -471,9 +478,8 @@ INSERT INTO COACH VALUES ('Charles Klask', 'Michigan State', 'N', 'Detroit Pisto
 INSERT INTO COACH VALUES ('Aaron Gray', 'Pittsburgh', 'N', 'Detroit Pistons', 6, 7);
 INSERT INTO COACH VALUES ('Otis Smith', 'Jacksonville', 'N', 'Detroit Pistons', 6, 7);
 INSERT INTO COACH VALUES ('Jon Ishop', 'Texas', 'N', 'Detroit Pistons', 6, 7);
-INSERT INTO COACH VALUES ('Dwane Casey', 'Kentucky', 'Y', 'Toronto Raptors', 5, 6);
+INSERT INTO COACH VALUES ('Nick Nurse', 'Northern Iowa', 'Y', 'Toronto Raptors', 5, 6);
 INSERT INTO COACH VALUES ('Rex Kalamian', 'Cal Poly Pomona', 'N', 'Toronto Raptors', 5, 6);
-INSERT INTO COACH VALUES ('Nick Nurse', 'Northern Iowa', 'N', 'Toronto Raptors', 5, 6);
 INSERT INTO COACH VALUES ('Jerry Stackhouse', 'North Carolina', 'N', 'Toronto Raptors', 5, 6);
 INSERT INTO COACH VALUES ('Jama Mahlalela', 'British Columbia (Canada)', 'N', 'Toronto Raptors', 5, 6);
 INSERT INTO COACH VALUES ('Jamaal Magloire', 'Kentucky', 'N', 'Toronto Raptors', 5, 6);
@@ -493,12 +499,11 @@ INSERT INTO COACH VALUES ('Kevin Johnson', 'Indiana State', 'N', 'Philadelphia 7
 INSERT INTO COACH VALUES ('Gregg Popovich', 'Air Force Academy', 'Y', 'San Antonio Spurs', 6, 6);
 INSERT INTO COACH VALUES ('Ettore Messina', '', 'N', 'San Antonio Spurs', 6, 6);
 INSERT INTO COACH VALUES ('Ime Udoka', 'Portland State', 'N', 'San Antonio Spurs', 6, 6);
-INSERT INTO COACH VALUES ('James Borrego', 'San Diego', 'N', 'San Antonio Spurs', 6, 6);
 INSERT INTO COACH VALUES ('Chip Engelland', 'Duke', 'N', 'San Antonio Spurs', 6, 6);
 INSERT INTO COACH VALUES ('Becky Hammon', 'Colorado State', 'N', 'San Antonio Spurs', 6, 6);
 INSERT INTO COACH VALUES ('Will Hardy', 'Williams', 'N', 'San Antonio Spurs', 6, 6);
 INSERT INTO COACH VALUES ('Will Sevening', 'Wisconsin-LaCrosse', 'N', 'San Antonio Spurs', 6, 6);
-INSERT INTO COACH VALUES ('Jay Triano', 'Simon Fraser', 'Y', 'Phoenix Suns', 6, 5);
+INSERT INTO COACH VALUES ('Igor Kokoskov', 'Belgrade University', 'Y', 'Phoenix Suns', 6, 5);
 INSERT INTO COACH VALUES ('Ty Corbin', 'DePaul', 'N', 'Phoenix Suns', 6, 5);
 INSERT INTO COACH VALUES ('Ty Ellis', 'Southern Nazarene', 'N', 'Phoenix Suns', 6, 5);
 INSERT INTO COACH VALUES ('Bret Burchard', 'Taylor', 'N', 'Phoenix Suns', 6, 5);
@@ -870,7 +875,7 @@ INSERT INTO ATTENDS VALUES ('CJ Wilcox', '2017-10-06 02:00:00', 'Portland', 0, 0
 INSERT INTO ATTENDS VALUES ('CJ Wilcox', '2017-10-08 19:30:00', 'LA', 0, 0, 0, 0, 0);
 INSERT INTO ATTENDS VALUES ('CJ Wilcox', '2017-10-10 02:00:00', 'Sacramento', 0, 0, 0, 0, 0);
 INSERT INTO ATTENDS VALUES ('CJ Wilcox', '2017-10-12 02:00:00', 'Phoenix', 0, 0, 0, 0, 0);
-INSERT INTO PLAYERHAS VALUES ('Dwyane Wade', 'USA', 36, 3, 'Miami Heat');
+INSERT INTO PLAYERHAS VALUES ('Dwyane Wade', 'USA', 36, 3, 'Cleveland Cavaliers');
 INSERT INTO CAREER VALUES ('Dwyane Wade', 0, 12, '2003/1/5');
 INSERT INTO ATTENDS VALUES ('Dwyane Wade', '2017-10-04 23:00:00', 'Cleveland', 7, 2, 4, 0, 1);
 INSERT INTO ATTENDS VALUES ('Dwyane Wade', '2017-10-06 23:30:00', 'Cleveland', 20, 5, 0, 0, 1);
@@ -1206,7 +1211,7 @@ INSERT INTO ATTENDS VALUES ('Andre Roberson', '2017-10-26 00:00:00', 'Oklahoma C
 INSERT INTO ATTENDS VALUES ('Andre Roberson', '2017-10-28 00:00:00', 'Minnesota', 4, 3, 0, 1, 0);
 INSERT INTO ATTENDS VALUES ('Andre Roberson', '2017-10-29 00:00:00', 'Chicago', 5, 1, 1, 1, 0);
 INSERT INTO ATTENDS VALUES ('Andre Roberson', '2017-11-01 00:00:00', 'Milwaukee', 9, 3, 0, 0, 0);
-INSERT INTO PLAYERHAS VALUES ('Kay Felder', 'USA', 23, 22, 'Chicago Bulls');
+INSERT INTO PLAYERHAS VALUES ('Kay Felder', 'USA', 23, 22, 'Detroit Pistons');
 INSERT INTO CAREER VALUES ('Kay Felder', 0, 0, '2016/2/54');
 INSERT INTO ATTENDS VALUES ('Kay Felder', '2017-10-04 23:00:00', 'Cleveland', 13, 0, 1, 0, 2);
 INSERT INTO ATTENDS VALUES ('Kay Felder', '2017-10-06 23:30:00', 'Cleveland', 4, 1, 2, 0, 0);
@@ -1251,7 +1256,7 @@ INSERT INTO ATTENDS VALUES ('Jake Layman', '2017-10-25 02:00:00', 'Portland', 0,
 INSERT INTO ATTENDS VALUES ('Jake Layman', '2017-10-27 02:00:00', 'Portland', 0, 0, 0, 0, 0);
 INSERT INTO ATTENDS VALUES ('Jake Layman', '2017-10-29 02:00:00', 'Portland', 0, 0, 0, 0, 0);
 INSERT INTO ATTENDS VALUES ('Jake Layman', '2017-10-31 02:00:00', 'Portland', 0, 0, 0, 0, 0);
-INSERT INTO PLAYERHAS VALUES ('Georges Niang', 'USA', 24, 31, 'Utah Jazz');
+INSERT INTO PLAYERHAS VALUES ('Georges Niang', 'USA', 25, 31, 'Utah Jazz');
 INSERT INTO CAREER VALUES ('Georges Niang', 0, 0, '2016/2/50');
 INSERT INTO ATTENDS VALUES ('Georges Niang', '2017-10-01 00:30:00', 'Golden State', 3, 3, 2, 1, 1);
 INSERT INTO ATTENDS VALUES ('Georges Niang', '2017-10-08 11:00:00', 'Minnesota', 0, 1, 0, 0, 0);
@@ -2001,7 +2006,7 @@ INSERT INTO ATTENDS VALUES ('Jae Crowder', '2017-10-24 23:00:00', 'Cleveland', 1
 INSERT INTO ATTENDS VALUES ('Jae Crowder', '2017-10-25 23:30:00', 'Brooklyn', 5, 1, 1, 0, 0);
 INSERT INTO ATTENDS VALUES ('Jae Crowder', '2017-10-28 23:00:00', 'New Orleans', 5, 4, 2, 0, 2);
 INSERT INTO ATTENDS VALUES ('Jae Crowder', '2017-10-29 23:00:00', 'Cleveland', 5, 5, 1, 0, 0);
-INSERT INTO PLAYERHAS VALUES ('Alex Len', 'Ukraine', 24, 21, 'Phoenix Suns');
+INSERT INTO PLAYERHAS VALUES ('Alex Len', 'Ukraine', 25, 21, 'Phoenix Suns');
 INSERT INTO CAREER VALUES ('Alex Len', 0, 0, '2013/1/5');
 INSERT INTO ATTENDS VALUES ('Alex Len', '2017-10-04 02:00:00', 'Portland', 14, 14, 0, 2, 1);
 INSERT INTO ATTENDS VALUES ('Alex Len', '2017-10-07 01:00:00', 'Utah', 18, 9, 0, 2, 0);
@@ -2507,7 +2512,7 @@ INSERT INTO ATTENDS VALUES ('Pat Connaughton', '2017-10-25 02:00:00', 'Portland'
 INSERT INTO ATTENDS VALUES ('Pat Connaughton', '2017-10-27 02:00:00', 'Portland', 3, 2, 0, 0, 0);
 INSERT INTO ATTENDS VALUES ('Pat Connaughton', '2017-10-29 02:00:00', 'Portland', 13, 4, 1, 0, 0);
 INSERT INTO ATTENDS VALUES ('Pat Connaughton', '2017-10-31 02:00:00', 'Portland', 6, 0, 0, 0, 0);
-INSERT INTO PLAYERHAS VALUES ('George Hill', 'USA', 32, 3, 'Cleveland Cavaliers');
+INSERT INTO PLAYERHAS VALUES ('George Hill', 'USA', 32, 3, 'Sacramento Kings');
 INSERT INTO CAREER VALUES ('George Hill', 0, 0, '2008/1/26');
 INSERT INTO ATTENDS VALUES ('George Hill', '2017-10-03 02:00:00', 'Sacramento', 5, 0, 5, 0, 0);
 INSERT INTO ATTENDS VALUES ('George Hill', '2017-10-07 00:30:00', 'San Antonio', 0, 0, 0, 0, 0);
@@ -2643,7 +2648,7 @@ INSERT INTO ATTENDS VALUES ('DeAndre Liggins', '2017-10-24 00:00:00', 'Milwaukee
 INSERT INTO ATTENDS VALUES ('DeAndre Liggins', '2017-10-27 00:00:00', 'Milwaukee', 0, 1, 1, 1, 0);
 INSERT INTO ATTENDS VALUES ('DeAndre Liggins', '2017-10-29 19:30:00', 'Atlanta', 0, 0, 0, 0, 0);
 INSERT INTO ATTENDS VALUES ('DeAndre Liggins', '2017-11-01 00:00:00', 'Milwaukee', 6, 1, 0, 0, 0);
-INSERT INTO PLAYERHAS VALUES ('Isaiah Thomas', 'USA', 29, 3, 'Cleveland Cavaliers');
+INSERT INTO PLAYERHAS VALUES ('Isaiah Thomas', 'USA', 29, 3, 'Los Angeles Lakers');
 INSERT INTO CAREER VALUES ('Isaiah Thomas', 0, 2, '2011/2/60');
 INSERT INTO ATTENDS VALUES ('Isaiah Thomas', '2017-10-04 23:00:00', 'Cleveland', 0, 0, 0, 0, 0);
 INSERT INTO ATTENDS VALUES ('Isaiah Thomas', '2017-10-06 23:30:00', 'Cleveland', 0, 0, 0, 0, 0);
@@ -3126,7 +3131,7 @@ INSERT INTO ATTENDS VALUES ('Joakim Noah', '2017-10-06 23:00:00', 'Washington', 
 INSERT INTO ATTENDS VALUES ('Joakim Noah', '2017-10-08 23:30:00', 'Brooklyn', 1, 4, 1, 0, 1);
 INSERT INTO ATTENDS VALUES ('Joakim Noah', '2017-10-09 23:30:00', 'New York', 0, 0, 0, 0, 0);
 INSERT INTO ATTENDS VALUES ('Joakim Noah', '2017-10-13 23:30:00', 'New York', 0, 0, 0, 0, 0);
-INSERT INTO PLAYERHAS VALUES ('Avery Bradley', 'USA', 27, 11, 'Detroit Pistons');
+INSERT INTO PLAYERHAS VALUES ('Avery Bradley', 'USA', 27, 11, 'LA Clippers');
 INSERT INTO CAREER VALUES ('Avery Bradley', 0, 0, '2010/1/19');
 INSERT INTO ATTENDS VALUES ('Avery Bradley', '2017-10-04 23:00:00', 'Detroit', 14, 1, 3, 2, 1);
 INSERT INTO ATTENDS VALUES ('Avery Bradley', '2017-10-06 23:00:00', 'Detroit', 18, 2, 1, 0, 2);
@@ -3323,7 +3328,7 @@ INSERT INTO ATTENDS VALUES ('Michael Beasley', '2017-10-24 23:30:00', 'Boston', 
 INSERT INTO ATTENDS VALUES ('Michael Beasley', '2017-10-27 23:30:00', 'New York', 4, 2, 1, 0, 0);
 INSERT INTO ATTENDS VALUES ('Michael Beasley', '2017-10-29 23:00:00', 'Cleveland', 0, 0, 0, 0, 0);
 INSERT INTO ATTENDS VALUES ('Michael Beasley', '2017-10-30 23:30:00', 'New York', 4, 2, 0, 0, 0);
-INSERT INTO PLAYERHAS VALUES ('Derrick Rose', 'USA', 29, 25, 'Cleveland Cavaliers');
+INSERT INTO PLAYERHAS VALUES ('Derrick Rose', 'USA', 29, 25, 'Minnesota Timberwolves');
 INSERT INTO CAREER VALUES ('Derrick Rose', 1, 3, '2008/1/1');
 INSERT INTO ATTENDS VALUES ('Derrick Rose', '2017-10-04 23:00:00', 'Cleveland', 7, 0, 3, 0, 0);
 INSERT INTO ATTENDS VALUES ('Derrick Rose', '2017-10-06 23:30:00', 'Cleveland', 15, 3, 3, 0, 1);
@@ -3547,7 +3552,7 @@ INSERT INTO ATTENDS VALUES ('Evan Fournier', '2017-10-24 23:00:00', 'Orlando', 2
 INSERT INTO ATTENDS VALUES ('Evan Fournier', '2017-10-27 23:00:00', 'Orlando', 25, 5, 2, 0, 1);
 INSERT INTO ATTENDS VALUES ('Evan Fournier', '2017-10-29 22:00:00', 'Charlotte', 23, 3, 5, 0, 1);
 INSERT INTO ATTENDS VALUES ('Evan Fournier', '2017-10-31 00:00:00', 'New Orleans', 20, 3, 4, 0, 1);
-INSERT INTO PLAYERHAS VALUES ('Tyler Zeller', 'USA', 28, 44, 'Brooklyn Nets');
+INSERT INTO PLAYERHAS VALUES ('Tyler Zeller', 'USA', 28, 44, 'Milwaukee Bucks');
 INSERT INTO CAREER VALUES ('Tyler Zeller', 0, 0, '2012/1/17');
 INSERT INTO ATTENDS VALUES ('Tyler Zeller', '2017-10-03 23:30:00', 'New York', 1, 4, 1, 0, 0);
 INSERT INTO ATTENDS VALUES ('Tyler Zeller', '2017-10-05 23:30:00', 'Brooklyn', 6, 3, 0, 1, 0);
@@ -3781,7 +3786,7 @@ INSERT INTO ATTENDS VALUES ('JR Smith', '2017-10-24 23:00:00', 'Cleveland', 3, 4
 INSERT INTO ATTENDS VALUES ('JR Smith', '2017-10-25 23:30:00', 'Brooklyn', 2, 4, 2, 0, 2);
 INSERT INTO ATTENDS VALUES ('JR Smith', '2017-10-28 23:00:00', 'New Orleans', 3, 2, 2, 0, 1);
 INSERT INTO ATTENDS VALUES ('JR Smith', '2017-10-29 23:00:00', 'Cleveland', 11, 3, 1, 1, 1);
-INSERT INTO PLAYERHAS VALUES ('Jameer Nelson', 'USA', 36, 41, 'New Orleans Pelicans');
+INSERT INTO PLAYERHAS VALUES ('Jameer Nelson', 'USA', 36, 41, 'Detroit Pistons');
 INSERT INTO CAREER VALUES ('Jameer Nelson', 0, 1, '2004/1/20');
 INSERT INTO ATTENDS VALUES ('Jameer Nelson', '2017-10-01 00:30:00', 'Golden State', 0, 0, 0, 0, 0);
 INSERT INTO ATTENDS VALUES ('Jameer Nelson', '2017-10-03 02:30:00', 'Los Angeles', 0, 0, 0, 0, 0);
@@ -3871,7 +3876,7 @@ INSERT INTO ATTENDS VALUES ('Patrick Patterson', '2017-10-26 00:00:00', 'Oklahom
 INSERT INTO ATTENDS VALUES ('Patrick Patterson', '2017-10-28 00:00:00', 'Minnesota', 3, 3, 1, 1, 0);
 INSERT INTO ATTENDS VALUES ('Patrick Patterson', '2017-10-29 00:00:00', 'Chicago', 2, 2, 0, 0, 2);
 INSERT INTO ATTENDS VALUES ('Patrick Patterson', '2017-11-01 00:00:00', 'Milwaukee', 6, 3, 1, 0, 0);
-INSERT INTO PLAYERHAS VALUES ('Luke Babbitt', 'USA', 28, 22, 'Miami Heat');
+INSERT INTO PLAYERHAS VALUES ('Luke Babbitt', 'USA', 28, 22, 'Atlanta Hawks');
 INSERT INTO CAREER VALUES ('Luke Babbitt', 0, 0, '2010/1/16');
 INSERT INTO ATTENDS VALUES ('Luke Babbitt', '2017-10-01 22:00:00', 'Miami', 6, 1, 2, 0, 0);
 INSERT INTO ATTENDS VALUES ('Luke Babbitt', '2017-10-04 23:00:00', 'Cleveland', 9, 4, 0, 0, 1);

@@ -14,6 +14,8 @@ if (isset($_POST['register'])) {
         $result = $connection->query("INSERT INTO Users VALUES ('$username', 'N', '$password')");
         if (!$result) {
             die ("Failed to register " . mysqli_error($connection));
+        } else {
+            echo '<script>alert("Successfully registered");</script>';
         }
     }
 }

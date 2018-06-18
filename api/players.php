@@ -1,5 +1,4 @@
 <?php include "../database/connection.php" ?>
-
 <?php
 
 # ENDPOINTS
@@ -13,15 +12,16 @@ $username = $_GET['username'];
 $team = $_GET['team'];
 $stats = $_GET['stats'];
 
-$query = "SELECT * FROM PLAYERHAS, CAREER WHERE PLAYER_NAME = PLAYERHAS.NAME";
+$query = "SELECT * FROM PLAYERHAS
+          INNER JOIN CAREER C2 ON PLAYERHAS.NAME = C2.PLAYER_NAME";
 
 if ($username) {
-        $query = "SELECT * FROM PLAYERHAS, CAREER, USER_LIKEPLAYER 
-    WHERE PLAYERHAS.NAME = CAREER.PLAYER_NAME AND PLAYERHAS.NAME = USER_LIKEPLAYER.PLAYER_NAME 
-    AND USER_LIKEPLAYER.USERID = '$username'";
+    $query= "SELECT * FROM PLAYERHAS
+            INNER JOIN CAREER C2 ON PLAYERHAS.NAME = C2.PLAYER_NAME
+            INNER JOIN USER_LIKEPLAYER L2 ON PLAYERHAS.NAME = L2.PLAYER_NAME AND L2.USERID = '$username'";
 }
 
-$query .= ($team ? " AND PLAYERHAS.teamName = '$team'" : '');
+$query .= ($team ? " WHERE PLAYERHAS.teamName = '$team'" : '');
 
 if ($stats && $stats == "true") {
     $query = "

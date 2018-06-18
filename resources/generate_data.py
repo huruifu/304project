@@ -16,6 +16,10 @@ CAREER_INSERT_TEMPLATE = "INSERT INTO CAREER VALUES " \
 ATTENDS_INSERT_TEMPLATE = "INSERT INTO ATTENDS VALUES " \
                           "('{name}', '{game_time}', '{game_location}', " \
                           "{points}, {rebounds}, {assists}, {blocks}, {steals});\n"
+FAV_TEAM_INSERT_TEMPLATE = "INSERT INTO USER_LIKETEAM VALUES" \
+                           "('{user_id}', '{team_name}');\n"
+FAV_PLAYER_INSERT_TEMPLATE = "INSERT INTO USER_LIKEPLAYER VALUES" \
+                             "('{user_id}', '{player_name}');\n"
 NBA_API_TEMPLATE_URL = "http://data.nba.net/10s/{}"
 
 data = {
@@ -154,6 +158,19 @@ for coach in requests.get(NBA_API_TEMPLATE_URL.format("/prod/v1/2017/coaches.jso
 with open('populate_tables.sql', 'w') as f:
     f.write("INSERT INTO Users VALUES ('admin_user', 'Y', 'password');\n" 
             "INSERT INTO Users VALUES ('normal_user', 'N', 'password');\n")
+
+    for team in data['teams'].values()[:5]:
+        f.write(FAV_TEAM_INSERT_TEMPLATE.format(
+            user_id='normal_user',
+            team_name=team['name']
+        ))
+
+    for player in data['players'].values()[:5]:
+        f.write(FAV_PLAYER_INSERT_TEMPLATE.format(
+            user_id='normal_user',
+            player_name=player['name']
+        ))
+
     for teamId, team in data['teams'].iteritems():
         f.write(TEAM_INSERT_TEMPLATE.format(**team))
 
