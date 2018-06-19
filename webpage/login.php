@@ -59,7 +59,7 @@ if(isset($_POST['signin'])){
     } else if($userName == 'testadmin') {
         header('Location:admin.html');
     }else {
-        echo 'hafwkhaf';
+        //
     }
     
 }

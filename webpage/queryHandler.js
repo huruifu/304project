@@ -1,14 +1,11 @@
 function handleQuery(id){
     const inputs = document.getElementById(id).getElementsByTagName('input');
-    console.log('handledddd');
     let params = [];
     for(i = 0; i<inputs.length; i++){
         params[i] = inputs[i].value;
     };
-    console.log(id.indexOf('team'));
 
     if(id.indexOf('team') == 0){
-        console.log('tessahkak');
         $("#team_result").empty();
         $.ajax({
             url: "queryHandler.php",

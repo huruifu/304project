@@ -16,9 +16,9 @@
     </div>
     <br>
     <div id='buttonGroup'>
-            <button class="btn" type="button" name="udpate" onclick="" style="width: 33% !important">Update Database</button>
-            <button class="btn" type="button" name="insert" onclick="" style="width: 33% !important">Insert New Data</button>
-            <button class="btn" type="button" name="delete" onclick="" style="width: 33% !important">Delete data</button>
+            <button class="btn" type="button" name="udpate" onclick="onSelectTab('update')" style="width: 33% !important">Update Database</button>
+            <button class="btn" type="button" name="insert" onclick="onSelectTab('insert')" style="width: 33% !important">Insert New Data</button>
+            <button class="btn" type="button" name="delete" onclick="onSelectTab('delete')" style="width: 33% !important">Delete data</button>
     </div>
     <div id='update' class="tabContent">
     <h5>Update your team or coach data here</h5>
@@ -37,16 +37,54 @@
             <button inline type="submit" onclick="handleQuery('coach_update')">Go</button>
         </div>
         <div class="query" id="team_update">
-            Table Team:
-            <input type="text" name="param1" placeholder="e.g. 10">
-            teams based on the number of
-            <input type="text" name="param1" placeholder="wins or losses">
-            games
-            <button inline type="submit" onclick="handleQuery('team_q1')">Go</button>
+            Table TEAM: update TEAM
+            <input type="text" placeholder="Enter team name">'s
+            <input list="attrs" name="browsers">
+                <datalist id="attrs">
+                    <option value="city">
+                    <option value="wins">
+                    <option value="losses">
+                 </datalist>
+                 to be
+                <input type="text" name='value' placeholder="Enter value">
+                <button inline type="submit" onclick="handleQuery('team_update')">Go</button>
         </div>
+        <div id='update_result'></div>
     </div>
-    <div id='insert' class="tabContent"></div>
-    <div id="delete" class="tabContent"></div>
+    <div id='insert' class="tabContent">
+            <div id="coach_insert" class="query">
+                    Table Coach: insert coach
+                    <input type="text" placeholder="coach's name">'s
+                    <input type="text" placeholder="college">
+                    <input type="text" placeholder="'Y' or 'N' for is Assistant or not" >
+                    <input type="text" placeholder="team name">
+                    <input type="number" placeholder="winNumber">
+                    <input type="number" placeholder="loseNumber">
+                    <button inline type="submit" onclick="handleQuery('coach_insert')">Go</button>
+                </div>
+                <div class="query" id="team_insert">
+                    Table TEAM: insert TEAM
+                    <input type="text" placeholder="team name">'s
+                    <input type="text" name="city" placeholder="city">
+                    <input type="number" name='value' placeholder="wins">
+                    <input type="number" placeholder="losses">
+                    <button inline type="submit" onclick="handleQuery('team_insert')">Go</button>
+                </div>
+                <div id='insert_result'></div>
+    </div>
+    <div id="delete" class="tabContent">
+            <div id="coach_delete" class="query">
+                    Table Coach: delete coach
+                    <input type="text" placeholder="Enter coach's name">'s
+                    <button inline type="submit" onclick="handleQuery('coach_delete')">Go</button>
+                </div>
+                <div class="query" id="team_delete">
+                    Table TEAM: delete TEAM
+                    <input type="text" placeholder="Enter team name">'s
+                    <button inline type="submit" onclick="handleQuery('team_delete')">Go</button>
+                </div>
+                <div id='delete_result'></div>
+    </div>
 </body>
 </html>
 

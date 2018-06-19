@@ -44,7 +44,6 @@ function createTable(array $results = array())
     if(isset($_POST['id'])){
         $id=$_POST['id'];
         $params = $_POST['params'];
-        echo $params[0];
         $user=new User("shiki", "123", 'N');
 
         switch ($id) {
@@ -105,22 +104,22 @@ function createTable(array $results = array())
                 $result = $user->getFavoritePlayer();
                 break;
             case 'coach_update':
-                $result = $user->update('COACH', 'coachName', 'ABC', 'college', 'SFU');
+                $result = $user->update('COACH', $params[1], $params[2], 'coachName', $params[0]);
                 break;
             case 'coach_insert':
-                $result = $user->insertData('COACH', ['ABC', 'UBC', 'N', 'Detroit Pistons', 10, 20]);
+                $result = $user->insertData('COACH', [$params[0], $params[1], $params[2], $params[3], $params[4], $params[5]]);
                 break;
             case 'coach_delete':
-                $result = $user->delete('COACH', 'coachName');
+                $result = $user->delete('COACH', 'coachName', $params[0]);
                 break;
             case 'team_update':
-                $result = $user->insertData('TEAM', ['ABC', 'UBC', 'N', 'Detroit Pistons', 10, 20]);
+                $result = $user->insertData('TEAM', $params[1], $params[2], 't_name', $params[0]);
                 break;
             case 'team_insert':
-                $result = $user->insertData('TEAM', ['ABC', 'UBC', 'N', 'Detroit Pistons', 10, 20]);
+                $result = $user->insertData('TEAM', [$params[0], $params[1], $params[2], $params[3]]);
                 break;
             case 'team_delete':
-                $result = $user->delete('TEAM', 't_name');
+                $result = $user->delete('TEAM', 't_name', $params[0]);
                 break;
         }
         $tableResult = createTable(array_result($result));

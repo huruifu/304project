@@ -80,7 +80,6 @@ class User {
     public function getTopTeam($orderBy, $topNum) {
         global $query;
         global $connection;
-        echo 'handle~~';
         $queryL = $query -> ranking_query("*", "TEAM", $orderBy, $topNum);
         $result = mysqli_query($connection, $queryL);
         if (!$result) {
@@ -214,7 +213,6 @@ class User {
         global $query;
         global $connection;
         $selectQuery = $query -> ranking_query('*', 'CAREER', $requirement, $num);
-        echo $selectQuery;
         $result = mysqli_query($connection, $selectQuery);
         if (!$result) {
             die("FAILED OPERATE" . mysqli_error($connection));
@@ -259,9 +257,7 @@ class User {
 //        $rankQuery .= "FROM ($averageQuery) AS q1 ";
 //        $rankQuery .= "WHERE q1.ord $operator $value ";
         
-        echo $operator.'haskhfaks';
         $selectQuery = $query -> writeSelectQuery("($aggQuery)", "*", "info", $operator, $value);
-        echo $selectQuery;
         $result = mysqli_query($connection, $selectQuery);
         if (!$result) {
             die("FAILED OPERATE" . mysqli_error($connection));
@@ -327,14 +323,12 @@ class User {
     public function update($tableName, $upDateColumn, $value, $condColumn, $condValue) {
         global $query;
         global $connection;
-        echo $upDateColumn.'this iss it!!!';
         $upQuery = $query -> updateQuery($tableName, $upDateColumn, $value, $condColumn, $condValue);
-        echo $upQuery;
         $result = mysqli_query($connection, $upQuery);
         if (!$result) {
             die("FAILED TO OPERATE" . mysqli_error($connection));
         }
-        // echo "OPERATION SUCCESS";
+        echo "OPERATION SUCCESS";
     }
 }
 ?>
