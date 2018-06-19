@@ -73,16 +73,16 @@ function createTable(array $results = array())
                 $result = $user->getAllPlayerAverageX($params[0]);
                 break;
             case 'player_q3':
-                $result = $user->getMaxOrMinAvgX($params[0], $params[2], $params[1]);
+                $result = $user->getMaxOrMinAvgX($params[1], $params[2], $params[0]);
                 break;
             case 'player_q4':
-                $result = $user->getPlayersMeetRequirment($params[0], $params[1], $params[2]);
+                $result = $user->getPlayersMeetRequirment($params[0], $params[1], (int) $params[2]);
                 break;
             case 'player_q5':
                 $result = $user->getTopXCareer($params[0], $params[1]);
                 break;
             case 'player_q6':
-                $result = $user->getPlayerMeetAvgRequirement($params[0], $params[1], $params[2]);
+                $result = $user->getPlayerMeetAvgRequirement($params[0], $params[1], (int) $params[2]);
                 break;
             case 'game_q1':
                 $result = $user->getTopPlayerInGame($params[1], $params[0], $params[2], $params[3]);

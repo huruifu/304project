@@ -188,7 +188,7 @@ class User {
     public function getPlayersMeetRequirment($typeOfRecord, $operator, $value) {
         global $query;
         global $connection;
-        $selectQuery = $query -> writeSelectQuery('ATTENDS', 'player_name', $typeOfRecord, $operator, $value);
+        $selectQuery = $query -> writeSelectQuery('ATTENDS', '*', $typeOfRecord, $operator, $value);
         $result = mysqli_query($connection, $selectQuery);
         if (!$result) {
             die("FAILED OPERATE" . mysqli_error($connection));

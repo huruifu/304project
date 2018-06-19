@@ -41,7 +41,7 @@
     </div>
     <div class="query" id="team_q3">
         Show teams that have played in
-        <input type="text" name="param" placeholder="City">
+        <input type="text" name="param" placeholder="City" required>
         at
         <input type="text" name="param" placeholder="Date" title="YYYY-MM-DD HH:MM:SS"
                oninvalid="alert(`Invalid Date, required format: ${this.title}`)"
@@ -53,7 +53,7 @@
 <div id='player' class="tabContent">
     <div class="query" id="player_q1">
         Calculate player:
-        <input type="text" placeholder="Enter player name" name="param">'s average
+        <input type="text" placeholder="Enter player name" name="param" required>'s average
         <select name="param">
             <option value="rebounds">rebounds</option>
             <option value="steals">steals</option>
@@ -111,7 +111,7 @@
             <option value=">=">>=</option>
             <option value="<="><=</option>
             <option value="!=">!=</option>
-            <option value="==">==</option>
+            <option value="=">==</option>
         </select>
         than
         <input type="number" placeholder="Enter value" name="param">
@@ -142,7 +142,7 @@
             <option value=">=">>=</option>
             <option value="<="><=</option>
             <option value="!=">!=</option>
-            <option value="==">==</option>
+            <option value="=">==</option>
         </select> than
         <input type="number" placeholder="Enter value" name="param">
         <button inline type="submit" onclick="handleQuery('player_q6')">Query!</button>
@@ -156,9 +156,9 @@
         <input type="text" name="param" placeholder="Enter game date" title="YYYY-MM-DD HH:MM:SS"
                oninvalid="alert(`Invalid Date, required format: ${this.title}`)"
                pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}" required>
-        <input type="text" placeholder="Enter game location" name="param">
+        <input type="text" placeholder="Enter game location" name="param" required>
         Team:
-        <input type="text" placeholder="Enter team" name="param">
+        <input type="text" placeholder="Enter team" name="param" required>
         Type of Record
         <select name="param">
             <option value="rebounds">rebounds</option>
@@ -171,8 +171,20 @@
     </div>
     <div class="query" id="game_q2">
         Get games where selected records are greater than 10:
-        <input type="text" placeholder="Enter record 1" name="param">
-        <input type="text" placeholder="Enter record 2" name="param">
+        <select name="param">
+            <option value="rebounds">rebounds</option>
+            <option value="steals">steals</option>
+            <option value="blocks">blocks</option>
+            <option value="assists">assists</option>
+            <option value="points">points</option>
+        </select>
+        <select name="param">
+            <option value="rebounds">rebounds</option>
+            <option value="steals">steals</option>
+            <option value="blocks">blocks</option>
+            <option value="assists">assists</option>
+            <option value="points">points</option>
+        </select>
         <button inline type="submit" onclick="handleQuery('game_q2')">Query!</button>
     </div>
     <div class="query" id="game_q3"></div>

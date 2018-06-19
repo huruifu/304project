@@ -38,11 +38,18 @@ class Query {
 //                    A.p_name = P.p_name AND A.g_time = '$g_time'
 //                GROUP BY P.t_name";
         
-        $query = "SELECT P.p_name, P.t_name, MAX($record) ";
-        $query .= "FROM ATTENDS A, PLAYERHAS P ";
-        $query .= "WHERE A.g_location = '$g_location' AND A.p_name = P.p_name AND A.g_time = '$g_time' ";
-        $query .= "GROUP BY P.t_name ";
-        return $query;
+//        $query = "SELECT P.name, P.teamName, MAX($record) ";
+//        $query .= "FROM ATTENDS A, PLAYERHAS P ";
+//        $query .= "WHERE A.game_location = '$g_location' AND A.player_name = P.name AND A.game_time = '$g_time' AND P.teamName = '$team'";
+//        return $query;
+
+        return "
+            SELECT *
+            FROM PlayerHas as P
+            INNER JOIN Attends A ON P.name = A.player_name
+            WHERE '$g_location' = A.game_location AND '$g_time' = A.game_time AND '$team' = P.teamName
+            ORDER BY $record DESC
+        ";
     }
     
     
