@@ -50,6 +50,36 @@ function handleQuery(id){
             $("#player_result").append(result);
         }});
     };
+
+    if(id.indexOf('user') == 0){
+        $("#user_result").empty();
+        $.ajax({
+            url: "queryHandler.php",
+            type:'POST',
+            data: {
+                id,
+                params,
+            },
+            success: function(result){
+            console.log(result);
+            $("#user_result").append(result);
+        }});
+    };
+
+    if(id.indexOf('coach') == 0){
+        $("#coach_result").empty();
+        $.ajax({
+            url: "queryHandler.php",
+            type:'POST',
+            data: {
+                id,
+                params,
+            },
+            success: function(result){
+            console.log(result);
+            $("#coach_result").append(result);
+        }});
+    };
 }
 
 function showTeams(){
@@ -91,6 +121,34 @@ function showGames(){
         success: function(result){
         console.log(result);
         $("#game_result").append(result);
+    }});
+}
+
+function showUsers(){
+    $.ajax({
+        url: "queryHandler.php",
+        type:'POST',
+        data: {
+            id: 'user',
+            params:[],
+        },
+        success: function(result){
+        console.log(result);
+        $("#user_result").append(result);
+    }});
+}
+
+function showCoaches(){
+    $.ajax({
+        url: "queryHandler.php",
+        type:'POST',
+        data: {
+            id: 'coach',
+            params:[],
+        },
+        success: function(result){
+        console.log(result);
+        $("#coach_result").append(result);
     }});
 }
 

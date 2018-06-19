@@ -2,10 +2,13 @@ $(document).ready(function(){
     console.log('readyyyy');
     $("#" + 'game').children().hide();
     $("#" + 'player').children().hide();
+    $("#" + 'coach').children().hide();
+    $("#" + 'user').children().hide();
     showTeams();
+    teamInitialized = true;
 });
 
-let teamInitialized, playerInitialized, gameInitialized = false;
+let teamInitialized, playerInitialized, gameInitialized, userInitialized, coachInitialized = false;
 
 
 const renderTab=(tabName) => {
@@ -21,10 +24,18 @@ const renderTab=(tabName) => {
         showGames();
         gameInitialized = true;
     }
+    if(tabName == 'coach' && !coachInitialized){
+        showCoaches();
+        coachInitialized = true;
+    }
+    if(tabName == 'user' && !userInitialized){
+        showUsers();
+        userInitialized = true;
+    }
 } 
 
 function onSelectTab(name){
-    let tabs = ['team', 'game', 'player'];
+    let tabs = ['team', 'game', 'player', 'user', 'coach'];
     tabs.forEach(tab =>{
         if(name === tab) {
             // $(document).ready(function(){

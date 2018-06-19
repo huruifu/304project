@@ -15,10 +15,6 @@ h1 {
     background-repeat:   no-repeat;
 }
 
-/* .tabContent {
-    display: none !important;
-} */
-
   .btn {
     background: #3498db;
     background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
@@ -34,7 +30,8 @@ h1 {
     font-size: 20px;
     padding: 10px 20px 10px 20px;
     text-decoration: none;
-    width: 33%;
+    width: 250px;
+    display: inline;
   }
   
   .btn:hover {

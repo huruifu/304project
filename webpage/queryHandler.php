@@ -45,7 +45,7 @@ function createTable(array $results = array())
         $id=$_POST['id'];
         $params = $_POST['params'];
         echo $params[0];
-        $user=new User("shiki", "123", false);
+        $user=new User("shiki", "123", 'N');
 
         switch ($id) {
             case 'team':
@@ -57,7 +57,13 @@ function createTable(array $results = array())
             case 'player':
                 $result = $user->getAllX('playerhas');
                 break;
-            case'team_q1':
+            case 'coach':
+                $result = $user->getAllX('coach');
+                break;
+            case 'user':
+                $result = $user->getFavoritePlayer();
+                break;
+            case 'team_q1':
                 $result = $user->getTopTeam('wins', 10);
                 break;
             case 'team_q2':
@@ -73,7 +79,7 @@ function createTable(array $results = array())
                 $result = $user->getAllPlayerAverageX($params[0]);
                 break;
             case 'player_q3':
-                $result = $user->getMaxOrMinAvgX($params[1], $params[0], $params[2]);
+                $result = $user->getMaxOrMinAvgX($params[0], $params[2], $params[1]);
                 break;
             case 'player_q4':
                 $result = $user->getPlayersMeetRequirment($params[0], $params[1], $params[2]);
@@ -83,9 +89,10 @@ function createTable(array $results = array())
                 $result = $user->getTopXCareer($params[0], $requirement);
                 break;
             case 'player_q6':
+                $result = $user->getTopAggStat($params[1], $params[0], $params[2]);
             break;
             case 'player_q7':
-                $result = $user->getPlayerMeetAvgRequirement($params[0], $params[1], $params[2]);
+                $result = $user->getPlayerMeetAvgRequirement($params[0], $params[1], (int) $params[2]);
                 break;
             case 'game_q1':
                 $result = $user->getTopPlayerInGame($params[1], $params[0], $params[2], $params[3]);
@@ -93,7 +100,28 @@ function createTable(array $results = array())
             case 'game_q2':
                 $result = $user->getGameMeetRequirement($params[0], $params[1]);
                 break;
-
+            case 'user_q1':
+                $user->setFavoritePlayer($params[0]);
+                $result = $user->getFavoritePlayer();
+                break;
+            case 'coach_update':
+                $result = $user->update('COACH', 'coachName', 'ABC', 'college', 'SFU');
+                break;
+            case 'coach_insert':
+                $result = $user->insertData('COACH', ['ABC', 'UBC', 'N', 'Detroit Pistons', 10, 20]);
+                break;
+            case 'coach_delete':
+                $result = $user->delete('COACH', 'coachName');
+                break;
+            case 'team_update':
+                $result = $user->insertData('TEAM', ['ABC', 'UBC', 'N', 'Detroit Pistons', 10, 20]);
+                break;
+            case 'team_insert':
+                $result = $user->insertData('TEAM', ['ABC', 'UBC', 'N', 'Detroit Pistons', 10, 20]);
+                break;
+            case 'team_delete':
+                $result = $user->delete('TEAM', 't_name');
+                break;
         }
         $tableResult = createTable(array_result($result));
         echo json_encode($tableResult);

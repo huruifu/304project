@@ -114,6 +114,7 @@ class Query {
     
     public function updateQuery($tableName, $upDateColumn, $value, $condColumn, $condValue) {
         $upDate = "UPDATE $tableName ";
+        echo $upDateColumn.'ghjka';
         if (gettype($value) == "string") {
             $upDate .= "SET $upDateColumn = '$value' ";
         }

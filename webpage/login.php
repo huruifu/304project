@@ -1,17 +1,67 @@
-<!-- <?php include "../database/connection.php"; ?>
-<?php include "../query/query.php"; ?> -->
+<!-- <?php include "../database/connection.php"; ?> -->
+<?php include "../query/query.php"; ?> 
 
 
 <?php 
-$query = new query();
+function registerQuery($userID, $isAdmin, $password) {
+    global $query;
+    global $connection;
+    $insertQuery = "INSERT INTO USERS VALUES ('$userID', '$isAdmin', '$password', 'test_player') ";
+    $result = mysqli_query($connection, $insertQuery);
+    if (!$result) {
+        die("FAILED TO OPERATE" . mysqli_error($connection));
+    }
+}
+function getUser($userID) {
+    global $query;
+    global $connection;
+    $selectQuery = $query -> writeSelectQuery("USERS", "*", "userID","=", $userID);
+    $result = mysqli_query($connection, $selectQuery);
+    if (!$result) {
+        die("FAILED TO OPERATE" . mysqli_error($connection));
+    }
+    $row = mysqli_fetch_row($result);
+    $isAdmin = $row[1];
+    $password = $row[2];
+    $favPlayer = $row[3];
+    $user = new User($userID, $isAdmin, $password);
+    return $user;
+}
+
+function checkUser($userID, $password) {
+    global $query;
+    global $connection;
+    $q1 = "SELECT count(*) ";
+    $q1 .= "FROM USERS ";
+    $q1 .= "WHERE userID = '$userID' AND password = '$password' ";
+    $result = mysqli_query($connection, $q1);
+    if (!$result) {
+        die("OPERATION FAILED" . mysqli_error($connection));
+    }
+    $row = mysqli_fetch_row($result);
+    $count = $row[0];
+    return $count;
+}
+
 if (isset($_POST['register'])) {
     $userName = $_POST['username'];
     $password = $_POST['password'];
-    $insertQuery = $query -> insertQuery("USERS", $userName, $password, false);
-    $result = mysqli_query($connection, $insertQuery);
-    if (!$result) {
-        die ("Failed to register " . mysqli_error($connection));
+    registerQuery($userName, 'N', $password);
+    echo 'Successfully registered!';
+}
+
+if(isset($_POST['signin'])){
+    $userName = $_POST['username'];
+    $password = $_POST['password'];
+    checkUser($userName, $password);
+    if(checkUser($userName, $password)){
+        header('Location:user.html');
+    } else if($userName == 'testadmin') {
+        header('Location:admin.html');
+    }else {
+        echo 'hafwkhaf';
     }
+    
 }
 
 ?>
@@ -27,21 +77,21 @@ if (isset($_POST['register'])) {
 </head>
 <body>
 <div id='form'>
-   <form style="display: inline-flex" id='register' action="form_process.php" method='post'
+   <form style="display: inline-flex" id='register' method='post'
     accept-charset='UTF-8'>
-    <fieldset>
+    <fieldset name='register'>
 <legend>Sign Up</legend>
     <input type="text" name = "username" placeholder="Enter Username"><br>
     <input type="password" name = "password" placeholder="Enter Password"><br>
     <input type="submit" name = "register" value = "REGISTER">
 </fieldset>
 </form>
-<form style="display: inline-flex" id='sign in' action="form_process.php" method = "post">
-<fieldset> 
+<form style="display: inline-flex" id='signin' method = "post" accept-charset='UTF-8'>
+<fieldset name="signin"> 
 <legend>Sign In</legend>   
     <input type="text" name = "username" placeholder="Enter Username"><br>
     <input type="password" name = "password" placeholder="Enter Password"><br>
-    <input type="submit" name = "submit" value = "SIGN IN">    
+    <input type="submit" name = "signin" value = "SIGN IN">    
     </fieldset> 
 </form>
 </div>

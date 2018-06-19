@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AdminPage</title>
+    <link rel="stylesheet" href="user.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src='admin.js'></script>
+</head>
+<body>
+    <div id='header'>
+        <h1 style="color: white; align-self: baseline">NBA DATABASE</h1>
+    </div>
+    <br>
+    <div id='buttonGroup'>
+            <button class="btn" type="button" name="udpate" onclick="" style="width: 33% !important">Update Database</button>
+            <button class="btn" type="button" name="insert" onclick="" style="width: 33% !important">Insert New Data</button>
+            <button class="btn" type="button" name="delete" onclick="" style="width: 33% !important">Delete data</button>
+    </div>
+    <div id='update' class="tabContent">
+    <h5>Update your team or coach data here</h5>
+        <div id="coach_update" class="query">
+            Table Coach: update coach
+            <input type="text" placeholder="Enter coach's name">'s
+            <input list="attrs" name="browsers">
+                <datalist id="attrs">
+                    <option value="college">
+                    <option value="is Assistant or not">
+                    <option value="number of team's games won">
+                    <option value="number of team's games lost">
+             </datalist>
+             to be
+            <input type="text" name='value' placeholder="Enter value">
+            <button inline type="submit" onclick="handleQuery('coach_update')">Go</button>
+        </div>
+        <div class="query" id="team_update">
+            Table Team:
+            <input type="text" name="param1" placeholder="e.g. 10">
+            teams based on the number of
+            <input type="text" name="param1" placeholder="wins or losses">
+            games
+            <button inline type="submit" onclick="handleQuery('team_q1')">Go</button>
+        </div>
+    </div>
+    <div id='insert' class="tabContent"></div>
+    <div id="delete" class="tabContent"></div>
+</body>
+</html>
+
+

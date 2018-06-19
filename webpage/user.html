@@ -20,6 +20,8 @@
         <button class="btn" type="button" name="team" onclick="onSelectTab(name)">Team</button>
         <button class="btn" type="button" name="player" onclick="onSelectTab(name)">Player</button>
         <button class="btn" type="button" name="game"onclick="onSelectTab(name)">Game</button>
+        <button class="btn" type="button" name="user" onclick="onSelectTab(name)">User</button>
+        <button class="btn" type="button" name="coach"onclick="onSelectTab(name)">Coach</button>
     </div>
     <div id='team' class='tabContent'>
         <div class="query" id="team_q1">
@@ -52,7 +54,7 @@
             <button inline type="submit" onclick="handleQuery('player_q1')">Query!</button>
         </div>
         <div class="query" id="player_q2">
-            Calculate all players's
+            Calculate every players's
             <input type="text" placeholder="rebounds, steals, etc" >
             <button inline type="submit" onclick="handleQuery('player_q2')">Query!</button>
         </div>
@@ -75,18 +77,17 @@
         </div>
         <div class="query" id="player_q5">
                 Get top
-                <input type="number" placeholder="Enter a number" >
+                <input display: flex type="number" placeholder="Enter a number" >
                 players who earn
-                <input type="text" placeholder="MVP or ALL-STAR" >
-                <button inline type="submit" onclick="handleQuery('player_q5')">Query!</button>
+                <input display: flex type="text" placeholder="MVP or ALL-STAR" >
+                <button inlinetype="submit" onclick="handleQuery('player_q5')">Query!</button>
         </div>
         <div class="query" id="player_q6">
-                Get players whose record
-                <input type="text" placeholder="rebounds, steals, etc" >
-                is
-                <input type="text" placeholder="Enter operater, e.g. '>' or '=' " >
-                than
-                <input type="number" placeholder="Enter value">
+                Top
+                <input type="number" placeholder="Enter number" >
+                players based on the
+                <input type="text" placeholder="Enter min, max, avg, or count " >
+                of <input type="text" placeholder="Enter record: points, rebounds ,etc. ">
                 <button inline type="submit" onclick="handleQuery('player_q6')">Query!</button>
         </div>
         <div class="query" id="player_q7">
@@ -120,6 +121,17 @@
         </div>
         <div class="query" id="game_q3"></div>
         <div id="game_result"></div>
+    </div>
+    <div id="user" class="tabContent">
+        <div class="query" id="user_q1">
+               Set your favourite player: 
+            <input type="text" placeholder="Enter player's full name" >
+            <button inline type="submit" onclick="handleQuery('user_q1')">Query!</button>
+        </div>
+        <div id="user_result"></div>
+    </div>
+    <div id="coach" class="tabContent">
+        <div id="coach_result"></div>
     </div>
 </body>
 </html>

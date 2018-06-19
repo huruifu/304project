@@ -18,23 +18,45 @@ class User {
         $this -> isAdmin = $isAdmin;
     }
     
+    function getUser($userID) {
+        global $query;
+        global $connection;
+        $selectQuery = $query -> writeSelectQuery("USERS", "*", "userID","=", $userID);
+        $result = mysqli_query($connection, $selectQuery);
+        if (!$result) {
+            die("FAILED TO OPERATE" . mysqli_error($connection));
+        }
+        $row = mysqli_fetch_row($result);
+        $isAdmin = $row[1];
+        $password = $row[2];
+        $favPlayer = $row[3];
+        $user = new User($userID, $isAdmin, $password);
+        return $user;
+        
+    }
+    
     // get users' favorite player.
     // players' information is in player class.
     public function getFavoritePlayer() {
-        $player = $this -> getPlayer($this->favoritePlayer);
-        return $player;
+        global $query;
+        global $connection;
+        $playerQuery = $query -> writeSelectQuery("USERS", "favPlayer", "userID", "=", $this -> userID);
+        $result = mysqli_query($connection, $playerQuery);
+        $row = mysqli_fetch_row($result);
+        $playerName .= $row[0];
+        $selectQuery = $query -> writeSelectQuery("PLAYERHAS", "*", "p_name", "=", $playerName);
+        $re = mysqli_query($connection, $selectQuery);
+        if (!$re) {
+            die("OPERATOR FAILED " . mysqli_error($connection));
+        }
+        return $re;
     }
     
     // User can update their favorite player.
     public function setFavoritePlayer($playerName) {
         global $query;
         global $connection;
-        $updateQuery = $query -> updateQuery("USERS", "favPlayer", $playerName, "userID", $this->userID);
-        $result = mysqli_error($connection, $updateQuery);
-        if (!$result) {
-            die("OPERATOR FAILED " . mysqli_error($connection));
-        }
-        return $result;
+        $this -> update("USERS", "favPlayer", $playerName, "userID", $this ->userID);
     }
     
     // helper function. used to get the information of users'favorite player.
@@ -159,22 +181,11 @@ class User {
     public function getMaxOrMinAvgX($agg, $aggregateColumn, $aggregate) {
         global $query;
         global $connection;
-//        $avgQuery = "SELECT p_name AS name, $agg($aggregateColumn) AS info ";
-//        $avgQuery .= "FROM ATTENDS ";
-//        $avgQuery .= "GROUP BY p_name ";
-        
-        $avgQuery = $query -> writeAggregateQuery("ATTENDS", $agg, $aggregateColumn, "p_name");
-        
-        $aggQuery = "SELECT t1.p_name, t1.info ";
-        $aggQuery .= "FROM ($avgQuery) AS t1 ";
-        $aggQuery .= "WHERE t1.info = (SELECT $aggregate(t2.info) FROM ($avgQuery) AS t2)";
-        
-//        $aggQueryone = $query -> writeAggregateQuery($tableName, $aggregation, $aggregateColumn, $selectColumn);
-//        //$selectQuery = $query -> writeSelectQueryWithoutWhere("($aggQuery)", "*");
-//        $aggQueryTwo = "SELECT t1.$selectColumn, $maxMin(t1.info) ";
-//        $aggQueryTwo .= "FROM ($aggQueryOne) AS t1 ";
-        
-        $result = mysqli_query($connection, $aggQuery);
+        $aggQuery = $query -> writeAggregateQuery("ATTENDS", $agg, $aggregateColumn, "p_name");
+        $finQuery = "SELECT t1.p_name, t1.info ";
+        $finQuery .= "FROM ($aggQuery) AS t1 ";
+        $finQuery .= "WHERE t1.info = (SELECT $aggregate(t2.info) FROM ($aggQuery) AS t2)";
+        $result = mysqli_query($connection, $finQuery);
         if (!$result) {
             die("OPERATE FAILED " . mysqli_error($connection));
         }
@@ -248,8 +259,9 @@ class User {
 //        $rankQuery .= "FROM ($averageQuery) AS q1 ";
 //        $rankQuery .= "WHERE q1.ord $operator $value ";
         
-        
+        echo $operator.'haskhfaks';
         $selectQuery = $query -> writeSelectQuery("($aggQuery)", "*", "info", $operator, $value);
+        echo $selectQuery;
         $result = mysqli_query($connection, $selectQuery);
         if (!$result) {
             die("FAILED OPERATE" . mysqli_error($connection));
@@ -315,17 +327,14 @@ class User {
     public function update($tableName, $upDateColumn, $value, $condColumn, $condValue) {
         global $query;
         global $connection;
-        if ($this -> isAdmin) {
-            $upQuery = updateQuery($tableName, $upDateColumn, $value, $condColumn, $condValue);
-            $result = mysqli_query($connection, $delQuery);
-            if (!$result) {
-                die("FAILED TO OPERATE" . mysqli_error($connection));
-            }
-            echo "OPERATION SUCCESS";
+        echo $upDateColumn.'this iss it!!!';
+        $upQuery = $query -> updateQuery($tableName, $upDateColumn, $value, $condColumn, $condValue);
+        echo $upQuery;
+        $result = mysqli_query($connection, $upQuery);
+        if (!$result) {
+            die("FAILED TO OPERATE" . mysqli_error($connection));
         }
-        else {
-            die("NO PERMISSION TO  DO THIS OPERATION");
-        }
+        // echo "OPERATION SUCCESS";
     }
 }
 ?>
