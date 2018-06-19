@@ -3,7 +3,7 @@ function handleQuery(id){
     // console.log('handledddd');
     let params = [];
     for(let i = 0; i<inputs.length; i++) {
-        if (!inputs[i].value) { // empty input
+        if (!inputs[i].checkValidity()) {
             return;
         }
         params[i] = inputs[i].value;

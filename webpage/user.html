@@ -24,7 +24,7 @@
     <div id='team' class='tabContent'>
         <div class="query" id="team_q1">
             Rank top
-            <input name="param" type="number" placeholder="e.g. 10">
+            <input name="param" type="number" placeholder="e.g. 10" required>
             teams based on the number of
             <select name="param">
                 <option value="num_win">wins</option>
@@ -42,7 +42,7 @@
                 Show teams that have played in
                 <input type="text" name="param" placeholder="City">
                 at
-                <input type="text" name="param" placeholder="Date: (YYYY-MM-DD HH:MM:SS)">
+                <input type="text" name="param" placeholder="Date" title="YYYY-MM-DD HH:MM:SS" oninvalid="alert(`Invalid Date, required format: ${this.title}`)" pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}" required>
                 <button inline type="submit" onclick="handleQuery('team_q3')">Query!</button>
         </div>    
         <div id="team_result"></div>
