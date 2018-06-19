@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,124 +5,199 @@
     <title>LoginPage</title>
     <link rel="stylesheet" href="user.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
-    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
+          integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src='queryHandler.js'></script>
     <script src='user.js'></script>
 </head>
 <body>
-    <div id='header'>
-        <h1 style="color: white; align-self: baseline">NBA DATABASE</h1>
+<div id='header'>
+    <h1 style="color: white; align-self: baseline">NBA DATABASE</h1>
+</div>
+<br>
+<div id='buttonGroup'>
+    <button class="btn" type="button" name="team" onclick="onSelectTab(name)">Team</button>
+    <button class="btn" type="button" name="player" onclick="onSelectTab(name)">Player</button>
+    <button class="btn" type="button" name="game" onclick="onSelectTab(name)">Game</button>
+</div>
+<div id='team' class='tabContent'>
+    <div class="query" id="team_q1">
+        Rank top
+        <input name="param" type="number" placeholder="e.g. 10" required>
+        teams based on the number of
+        <select name="param">
+            <option value="num_win">wins</option>
+            <option value="num_loss">losses</option>
+        </select>
+        games
+        <button inline type="submit" onclick="handleQuery('team_q1')">Query!</button>
     </div>
-    <br>
-    <div id='buttonGroup'>
-        <button class="btn" type="button" name="team" onclick="onSelectTab(name)">Team</button>
-        <button class="btn" type="button" name="player" onclick="onSelectTab(name)">Player</button>
-        <button class="btn" type="button" name="game"onclick="onSelectTab(name)">Game</button>
+    <div class="query" id="team_q2">
+        Show teams that have competed with
+        <input type="text" name="param" placeholder="Team Name">
+        <button inline type="submit" onclick="handleQuery('team_q2')">Query!</button>
     </div>
-    <div id='team' class='tabContent'>
-        <div class="query" id="team_q1">
-            Rank top
-            <input name="param" type="number" placeholder="e.g. 10" required>
-            teams based on the number of
-            <select name="param">
-                <option value="num_win">wins</option>
-                <option value="num_loss">losses</option>
-            </select>
-            games
-            <button inline type="submit" onclick="handleQuery('team_q1')">Query!</button>
-        </div>
-        <div class="query" id="team_q2">
-            Show teams that have competed with
-            <input type="text" name="param" placeholder="Team Name">
-            <button inline type="submit" onclick="handleQuery('team_q2')">Query!</button>
-        </div>
-        <div class="query" id="team_q3" >
-                Show teams that have played in
-                <input type="text" name="param" placeholder="City">
-                at
-                <input type="text" name="param" placeholder="Date" title="YYYY-MM-DD HH:MM:SS" oninvalid="alert(`Invalid Date, required format: ${this.title}`)" pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}" required>
-                <button inline type="submit" onclick="handleQuery('team_q3')">Query!</button>
-        </div>    
-        <div id="team_result"></div>
+    <div class="query" id="team_q3">
+        Show teams that have played in
+        <input type="text" name="param" placeholder="City">
+        at
+        <input type="text" name="param" placeholder="Date" title="YYYY-MM-DD HH:MM:SS"
+               oninvalid="alert(`Invalid Date, required format: ${this.title}`)"
+               pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}" required>
+        <button inline type="submit" onclick="handleQuery('team_q3')">Query!</button>
     </div>
-    <div id='player' class="tabContent">
-        <div class="query" id="player_q1">
-            Calculate player: 
-            <input type="text" placeholder="Enter player name" >'s average
-            <input type="text" placeholder="rebounds, steals, etc" >
-            <button inline type="submit" onclick="handleQuery('player_q1')">Query!</button>
-        </div>
-        <div class="query" id="player_q2">
-            Calculate all players's
-            <input type="text" placeholder="rebounds, steals, etc" >
-            <button inline type="submit" onclick="handleQuery('player_q2')">Query!</button>
-        </div>
-        <div class="query" id="player_q3" >
-            Get
-            <input type="text" placeholder="Enter min or max">
-            of players' 
-            <input type="text" placeholder="Enter min, max, or avg">
-            <input type="text" placeholder="Enter record: rebounds, steals, etc.">
-            <button inline type="submit" onclick="handleQuery('player_q3')">Query!</button>
-        </div>
-        <div class="query" id="player_q4">
-            Get players whose record
-                <input type="text" placeholder="rebounds, steals, etc" >
-                is
-                <input type="text" placeholder="Enter operater, e.g. '>' or '=' " >
-                than
-                <input type="number" placeholder="Enter value">
-                <button inline type="submit" onclick="handleQuery('player_q4')">Query!</button>
-        </div>
-        <div class="query" id="player_q5">
-                Get top
-                <input type="number" placeholder="Enter a number" >
-                players who earn
-                <input type="text" placeholder="MVP or ALL-STAR" >
-                <button inline type="submit" onclick="handleQuery('player_q5')">Query!</button>
-        </div>
-        <div class="query" id="player_q6">
-                Get players whose record
-                <input type="text" placeholder="rebounds, steals, etc" >
-                is
-                <input type="text" placeholder="Enter operater, e.g. '>' or '=' " >
-                than
-                <input type="number" placeholder="Enter value">
-                <button inline type="submit" onclick="handleQuery('player_q6')">Query!</button>
-        </div>
-        <div class="query" id="player_q7">
-                Get players whose AVERAGE record
-                <input type="text" placeholder="rebounds, steals, etc" >
-                is
-                <input type="text" placeholder="Enter operater, e.g. '>' or '=' " >
-                than
-                <input type="number" placeholder="Enter value">
-                <button inline type="submit" onclick="handleQuery('player_q7')">Query!</button>
-        </div>
-        <div id="player_result"></div>
+    <div id="team_result"></div>
+</div>
+<div id='player' class="tabContent">
+    <div class="query" id="player_q1">
+        Calculate player:
+        <input type="text" placeholder="Enter player name" name="param">'s average
+        <select name="param">
+            <option value="rebounds">rebounds</option>
+            <option value="steals">steals</option>
+            <option value="blocks">blocks</option>
+            <option value="assists">assists</option>
+            <option value="points">points</option>
+        </select>
+        <button inline type="submit" onclick="handleQuery('player_q1')">Query!</button>
     </div>
-    <div id='game' class="tabContent">
-        <div class="query" id="game_q1">
-            Search top player in a game:
-            Game: 
-            <input type="text" placeholder="Enter game time" >
-            <input type="text" placeholder="Enter game location">
-            Team:
-            <input type="text" placeholder="Enter team" >
-            Type of Record
-            <input type="text" placeholder="Enter record: rebounds, steals, etc." >
-            <button inline type="submit" onclick="handleQuery('game_q1')">Query!</button>
-        </div>
-        <div class="query" id="game_q2">
-            Get games where selected records are greater than 10:
-            <input type="text" placeholder="Enter record 1" >
-            <input type="text" placeholder="Enter record 2" >
-            <button inline type="submit" onclick="handleQuery('game_q2')">Query!</button>
-        </div>
-        <div class="query" id="game_q3"></div>
-        <div id="game_result"></div>
+    <div class="query" id="player_q2">
+        Calculate all players's
+        <select name="param">
+            <option value="rebounds">rebounds</option>
+            <option value="steals">steals</option>
+            <option value="blocks">blocks</option>
+            <option value="assists">assists</option>
+            <option value="points">points</option>
+        </select>
+        <button inline type="submit" onclick="handleQuery('player_q2')">Query!</button>
     </div>
+    <div class="query" id="player_q3">
+        Get
+        <select name="param">
+            <option value="min">min</option>
+            <option value="max">max</option>
+        </select>
+        of players'
+        <select name="param">
+            <option value="min">min</option>
+            <option value="max">max</option>
+            <option value="avg">avg</option>
+        </select>
+        <select name="param">
+            <option value="rebounds">rebounds</option>
+            <option value="steals">steals</option>
+            <option value="blocks">blocks</option>
+            <option value="assists">assists</option>
+            <option value="points">points</option>
+        </select>
+        <button inline type="submit" onclick="handleQuery('player_q3')">Query!</button>
+    </div>
+    <div class="query" id="player_q4">
+        Get players whose record
+        <select name="param">
+            <option value="rebounds">rebounds</option>
+            <option value="steals">steals</option>
+            <option value="blocks">blocks</option>
+            <option value="assists">assists</option>
+            <option value="points">points</option>
+        </select>
+        is
+        <select name="param">
+            <option value=">">></option>
+            <option value="<"><</option>
+            <option value=">=">>=</option>
+            <option value="<="><=</option>
+            <option value="!=">!=</option>
+            <option value="==">==</option>
+        </select>
+        than
+        <input type="number" placeholder="Enter value" name="param">
+        <button inline type="submit" onclick="handleQuery('player_q4')">Query!</button>
+    </div>
+    <div class="query" id="player_q5">
+        Get top
+        <input type="number" placeholder="Enter a number" name="param">
+        players who earn
+        <select name="param">
+            <option value="MVP_Num">MVP</option>
+            <option value="AllStar_Num">ALL-STAR</option>
+        </select>
+        <button inline type="submit" onclick="handleQuery('player_q5')">Query!</button>
+    </div>
+    <div class="query" id="player_q6">
+        Get players whose record
+        <select name="param">
+            <option value="rebounds">rebounds</option>
+            <option value="steals">steals</option>
+            <option value="blocks">blocks</option>
+            <option value="assists">assists</option>
+            <option value="points">points</option>
+        </select> is
+        <select name="param">
+            <option value=">">></option>
+            <option value="<"><</option>
+            <option value=">=">>=</option>
+            <option value="<="><=</option>
+            <option value="!=">!=</option>
+            <option value="==">==</option>
+        </select> than
+        <input type="number" placeholder="Enter value" name="param">
+        <button inline type="submit" onclick="handleQuery('player_q6')">Query!</button>
+    </div>
+    <div class="query" id="player_q7">
+        Get players whose AVERAGE record
+        <select name="param">
+            <option value="rebounds">rebounds</option>
+            <option value="steals">steals</option>
+            <option value="blocks">blocks</option>
+            <option value="assists">assists</option>
+            <option value="points">points</option>
+        </select> is
+        <select name="param">
+            <option value=">">></option>
+            <option value="<"><</option>
+            <option value=">=">>=</option>
+            <option value="<="><=</option>
+            <option value="!=">!=</option>
+            <option value="==">==</option>
+        </select> than
+        <input type="number" placeholder="Enter value" name="param">
+        <button inline type="submit" onclick="handleQuery('player_q7')">Query!</button>
+    </div>
+    <div id="player_result"></div>
+</div>
+<div id='game' class="tabContent">
+    <div class="query" id="game_q1">
+        Search top player in a game:
+        Game:
+        <input type="text" name="param" placeholder="Enter game date" title="YYYY-MM-DD HH:MM:SS"
+               oninvalid="alert(`Invalid Date, required format: ${this.title}`)"
+               pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}" required>
+        <input type="text" placeholder="Enter game location" name="param">
+        Team:
+        <input type="text" placeholder="Enter team" name="param">
+        Type of Record
+        <select name="param">
+            <option value="rebounds">rebounds</option>
+            <option value="steals">steals</option>
+            <option value="blocks">blocks</option>
+            <option value="assists">assists</option>
+            <option value="points">points</option>
+        </select>
+        <button inline type="submit" onclick="handleQuery('game_q1')">Query!</button>
+    </div>
+    <div class="query" id="game_q2">
+        Get games where selected records are greater than 10:
+        <input type="text" placeholder="Enter record 1" name="param">
+        <input type="text" placeholder="Enter record 2" name="param">
+        <button inline type="submit" onclick="handleQuery('game_q2')">Query!</button>
+    </div>
+    <div class="query" id="game_q3"></div>
+    <div id="game_result"></div>
+</div>
 </body>
 </html>
 

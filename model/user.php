@@ -42,7 +42,7 @@ class User {
         if (isset($playerName)) {
             global $query;
             global $connection;
-            $selectQuery = $query -> writeSelectQuery("PLAYERHAS", "*", "p_name", "=", $playerName);
+            $selectQuery = $query -> writeSelectQuery("PLAYERHAS", "*", "name", "=", $playerName);
             $result = mysqli_query($connection, $query);
             $row = mysqli_fetch_assoc($result);
             $age = $row['age'];
@@ -136,8 +136,8 @@ class User {
     public function getAverageX($playerName, $aggregateColumn) {
         global $query;
         global $connection;
-        $averageQuery = $query -> writeAggregateQuery("ATTENDS", "AVG", $aggregateColumn, "p_name");
-        $averageQuery .= "HAVING p_name = '$playerName' ";
+        $averageQuery = $query -> writeAggregateQuery("ATTENDS", "AVG", $aggregateColumn, "player_name");
+        $averageQuery .= "HAVING player_name = '$playerName' ";
         $result = mysqli_query($connection, $averageQuery);
         return $result;
     }
@@ -146,7 +146,7 @@ class User {
     public function getAllPlayerAverageX($aggregateColumn) {
         global $query;
         global $connection;
-        $averageQuery = $query -> writeAggregateQuery("ATTENDS", "AVG", $aggregateColumn, "p_name");
+        $averageQuery = $query -> writeAggregateQuery("ATTENDS", "AVG", $aggregateColumn, "player_name");
         $result = mysqli_query($connection, $averageQuery);
         if (!$result) {
             die("OPERATE FAILED " . mysqli_error($connection));
@@ -163,9 +163,9 @@ class User {
 //        $avgQuery .= "FROM ATTENDS ";
 //        $avgQuery .= "GROUP BY p_name ";
         
-        $avgQuery = $query -> writeAggregateQuery("ATTENDS", $agg, $aggregateColumn, "p_name");
+        $avgQuery = $query -> writeAggregateQuery("ATTENDS", $agg, $aggregateColumn, "player_name");
         
-        $aggQuery = "SELECT t1.p_name, t1.info ";
+        $aggQuery = "SELECT t1.player_name, t1.info ";
         $aggQuery .= "FROM ($avgQuery) AS t1 ";
         $aggQuery .= "WHERE t1.info = (SELECT $aggregate(t2.info) FROM ($avgQuery) AS t2)";
         
@@ -188,7 +188,7 @@ class User {
     public function getPlayersMeetRequirment($typeOfRecord, $operator, $value) {
         global $query;
         global $connection;
-        $selectQuery = $query -> writeSelectQuery('ATTENDS', 'p_name', $typeOfRecord, $operator, $value);
+        $selectQuery = $query -> writeSelectQuery('ATTENDS', 'player_name', $typeOfRecord, $operator, $value);
         $result = mysqli_query($connection, $selectQuery);
         if (!$result) {
             die("FAILED OPERATE" . mysqli_error($connection));
@@ -226,7 +226,7 @@ class User {
 //        $rankQuery .= "ORDER BY q1.ord ";
 //        $rankQuery .= "LIMIT $num ";
         
-        $aggQuery = $query -> writeAggregateQuery("ATTENDS", $aggregation, $orderBy, "p_name");
+        $aggQuery = $query -> writeAggregateQuery("ATTENDS", $aggregation, $orderBy, "player_name");
         $rankQuery = $query -> ranking_query("*", "($aggQuery)", "info" , $num, $b=1);
         $result = mysqli_query($connection, $rankQuery);
         if (!$result) {
@@ -240,7 +240,7 @@ class User {
     public function getPlayerMeetAvgRequirement($typeOfRecord, $operator, $value) {
         global $query;
         global $connection;
-        $aggQuery = $query -> writeAggregateQuery("ATTENDS", "AVG", $typeOfRecord, "p_name");
+        $aggQuery = $query -> writeAggregateQuery("ATTENDS", "AVG", $typeOfRecord, "player_name");
 //        $averageQuery = "SELECT p_name, AVG($typeOfRecord) AS ord ";
 //        $averageQuery .= "FROM ATTENDS ";
 //        $averageQuery .= "GROUP BY p_name";
