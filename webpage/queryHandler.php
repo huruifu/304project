@@ -82,8 +82,6 @@ function createTable(array $results = array())
                 $result = $user->getTopXCareer($params[0], $params[1]);
                 break;
             case 'player_q6':
-            break;
-            case 'player_q7':
                 $result = $user->getPlayerMeetAvgRequirement($params[0], $params[1], $params[2]);
                 break;
             case 'game_q1':
