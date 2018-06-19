@@ -44,7 +44,9 @@ function createTable(array $results = array())
     if(isset($_POST['id'])){
         $id=$_POST['id'];
         $params = $_POST['params'];
-        $user=new User("shiki", "123", 'N');
+        session_start(); 
+        $username = $_SESSION['user'];
+        $user=new User($username, "123", 'N');
 
         switch ($id) {
             case 'team':
@@ -61,9 +63,10 @@ function createTable(array $results = array())
                 break;
             case 'user':
                 $result = $user->getFavoritePlayer();
+
                 break;
             case 'team_q1':
-                $result = $user->getTopTeam('wins', 10);
+                $result = $user->getTopTeam('wins', $params[0]);
                 break;
             case 'team_q2':
                 $result = $user->getAllGamesParticipated($params[0]);

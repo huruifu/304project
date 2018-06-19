@@ -58,8 +58,11 @@ function handleQuery(id){
                 params,
             },
             success: function(result){
-            console.log(result);
-            $("#user_result").append(result);
+            if(result.indexOf('test_player') ==0){
+                $("#user_result").append('<p>You have not selected your favourite player yet! </>')
+            }else{
+                $("#user_result").append(result);
+            };
         }});
     };
 

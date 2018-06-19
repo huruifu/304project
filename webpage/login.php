@@ -54,14 +54,16 @@ if(isset($_POST['signin'])){
     $userName = $_POST['username'];
     $password = $_POST['password'];
     checkUser($userName, $password);
-    if(checkUser($userName, $password)){
-        header('Location:user.html');
-    } else if($userName == 'testadmin') {
+    if($userName == 'testadmin' && $password== '123') {
         header('Location:admin.html');
-    }else {
-        //
     }
-    
+    if(checkUser($userName, $password)){
+        session_start();
+        $_SESSION['user'] = $userName;
+        header('Location:user.html');
+    }else{
+        echo '<script>alert("invalid user! try again")</script>';
+    }
 }
 
 ?>
